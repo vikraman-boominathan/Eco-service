@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import intl package for date formatting
+import 'package:intl/intl.dart';
 
 Widget buildDateAndDayCards(String date, String day) {
   String formattedDate =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()); // Format current date
+      DateFormat('dd-MM-yyyy').format(DateTime.now()); 
   String formattedDay =
-      DateFormat('EEEE').format(DateTime.now()); // Format current day
+      DateFormat('EEEE').format(DateTime.now());
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,49 +62,7 @@ Widget buildDateAndDayCards(String date, String day) {
   );
 }
 
-Widget buildRowWithDropdown(
-    String label, String selectedValue, void Function(String?) onChanged) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        label,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(width: 10),
-      Container(
-        width: 200,
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: selectedValue, // Set the value to the selected value
-                onChanged: onChanged,
-                icon: Icon(Icons.keyboard_arrow_down),
-                items: <String>[
-                  'Aspiration',
-                  'Option 1',
-                  'Option 2',
-                  // Add more items as needed
-                ].map((String item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
+
 
 Widget buildCategoryCard(int index) {
   List<String> categories = [
@@ -116,7 +74,7 @@ Widget buildCategoryCard(int index) {
     "Paper"
   ];
   String category =
-      categories[index - 1]; // Adjust index to access correct category
+      categories[index - 1]; 
 
   return Card(
     child: Padding(
@@ -125,7 +83,7 @@ Widget buildCategoryCard(int index) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '$category', // Display category from list
+            '$category', 
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 5),
@@ -145,7 +103,6 @@ Widget buildCategoryCard(int index) {
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  // Add your onPressed functionality here
                 },
               ),
             ],
@@ -167,7 +124,6 @@ Widget buildCategoryCard(int index) {
               IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  // Add your onPressed functionality here
                 },
               ),
             ],
@@ -192,7 +148,7 @@ Widget buildRemarksCard(TextEditingController remarksController) {
           ),
           SizedBox(height: 10),
           TextField(
-            controller: remarksController, // Use remarksController here
+            controller: remarksController, 
             decoration: InputDecoration(
               hintText: 'Remarks',
               hintStyle: TextStyle(fontSize: 16),

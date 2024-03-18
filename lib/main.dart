@@ -53,35 +53,15 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   SizedBox(height: 10),
                   buildDateAndDayCards("Date", "Day"),
-                  CustomDropdown(
-                    label: 'Community',
-                    selectedValue: selectedCommunity,
-                    items: [
-                      'Community 1',
-                      'Community 2',
-                      'Community 3',
-                      'Community 3',
-                      'Community 3',
-                      'Community 3',
-                      'Community 3',
-                      'Community 3',
-                      'Community 3'
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedCommunity = value!;
-                      });
-                    },
-                  ),
+                  SizedBox(height: 10),
+                  CustomDropdown(),
                   SizedBox(height: 10),
                   for (int i = 1; i <= 6; i++) buildCategoryCard(i),
                   buildRemarksCard(remarksController),
-                  SizedBox(height: 20),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Form is validated, print the data
                           print('Community: $selectedCommunity');
                           print('Remarks: ${remarksController.text}');
                         }
