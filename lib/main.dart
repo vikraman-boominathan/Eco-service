@@ -48,39 +48,36 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
-              child: Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    buildDateAndDayCards("Date", "Day"),
-                    CustomDropdown(),
-                    SizedBox(height: 10),
-                    for (int i = 1; i <= 6; i++)
-                      Flexible(child: buildCategoryCard(i)),
-                    Flexible(child: buildRemarksCard(remarksController)),
-                    SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Form is validated, print the data
-                            print('Community: $selectedCommunity');
-                            print('Remarks: ${remarksController.text}');
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200, 50),
-                        ),
-                        child: Text(
-                          'Save',
-                          style: TextStyle(fontSize: 20),
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  buildDateAndDayCards("Date", "Day"),
+                  CustomDropdown(),
+                  SizedBox(height: 10),
+                  for (int i = 1; i <= 6; i++) buildCategoryCard(i),
+                  buildRemarksCard(remarksController),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Form is validated, print the data
+                          print('Community: $selectedCommunity');
+                          print('Remarks: ${remarksController.text}');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(200, 50),
+                      ),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(fontSize: 20),
                       ),
                     ),
-                    SizedBox(height: 20),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 20),
+                ],
               ),
             ),
           ),
