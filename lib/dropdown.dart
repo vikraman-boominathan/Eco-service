@@ -20,7 +20,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
   @override
   void initState() {
     super.initState();
-    _controller.text = 'Blue'; 
+    _controller.text = 'Blue'; // Set initial value
     _selectedOption = _controller.text;
   }
 
@@ -28,6 +28,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
   Widget build(BuildContext context) {
     final List<String> dropdownItems = [
       'Blue',
+      'Pink',
+      'Green',
+      'Orange',
+      'Grey',
       'Pink',
       'Green',
       'Orange',
@@ -43,11 +47,12 @@ class _CustomDropdownState extends State<CustomDropdown> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white, 
-            borderRadius: BorderRadius.circular(10), 
+            color: Colors.white, // Set background color to white
+            borderRadius: BorderRadius.circular(10), // Set border radius
           ),
           child: SingleChildScrollView(
             child: DropdownMenu<String>(
+              menuHeight: 200,
               width: 200,
               controller: _controller,
               onSelected: (String? option) {

@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          // Form is validated, print the data
                           print('Community: $selectedCommunity');
                           print('Remarks: ${remarksController.text}');
                         }
