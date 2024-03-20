@@ -53,11 +53,12 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   SizedBox(height: 10),
                   buildDateAndDayCards("Date", "Day"),
+
+                  SizedBox(height: 10),
                   CustomDropdown(),
                   SizedBox(height: 10),
                   for (int i = 1; i <= 6; i++) buildCategoryCard(i),
                   buildRemarksCard(remarksController),
-                  SizedBox(height: 20),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {

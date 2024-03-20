@@ -129,48 +129,22 @@ Widget buildCategoryCard(int index) {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 5),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'No. of bags',
-                    hintStyle: TextStyle(fontSize: 16),
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  // Add your onPressed functionality here
-                },
-              ),
-            ],
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'No. of bags',
+              hintStyle: TextStyle(fontSize: 16),
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+            ),
           ),
           SizedBox(height: 5),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Kg of Waste',
-                    hintStyle: TextStyle(fontSize: 16),
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  // Add your onPressed functionality here
-                },
-              ),
-            ],
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Kg of Waste',
+              hintStyle: TextStyle(fontSize: 16),
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+            ),
           ),
           SizedBox(height: 5),
         ],
