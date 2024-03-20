@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   SizedBox(height: 10),
                   buildDateAndDayCards("Date", "Day"),
+
                   SizedBox(height: 10),
                   CustomDropdown(),
                   SizedBox(height: 10),
