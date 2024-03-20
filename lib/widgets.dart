@@ -4,11 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Import intl package for date formatting
 
-Widget buildDateAndDayCards(String date, String day) {
-  String formattedDate =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()); // Format current date
-  String formattedDay =
-      DateFormat('EEEE').format(DateTime.now()); // Format current day
+Widget buildDateAndDayCards(
+    String date, String day, String formattedDate, String formattedDay) {
+  // Format current day
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,7 +25,7 @@ Widget buildDateAndDayCards(String date, String day) {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  formattedDate,
+                  formattedDate.toString(),
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -50,7 +48,7 @@ Widget buildDateAndDayCards(String date, String day) {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  formattedDay,
+                  formattedDay.toString(),
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -62,51 +60,8 @@ Widget buildDateAndDayCards(String date, String day) {
   );
 }
 
-Widget buildRowWithDropdown(
-    String label, String selectedValue, void Function(String?) onChanged) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        label,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(width: 10),
-      Container(
-        width: 200,
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: selectedValue, // Set the value to the selected value
-                onChanged: onChanged,
-                icon: Icon(Icons.keyboard_arrow_down),
-                items: <String>[
-                  'Aspiration',
-                  'Option 1',
-                  'Option 2',
-                  // Add more items as needed
-                ].map((String item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget buildCategoryCard(int index) {
+Widget buildCategoryCard(int index, TextEditingController bagsController,
+    TextEditingController kgController) {
   List<String> categories = [
     "Glass",
     "Mixed",
@@ -130,6 +85,7 @@ Widget buildCategoryCard(int index) {
           ),
           SizedBox(height: 5),
           TextField(
+            controller: bagsController,
             decoration: InputDecoration(
               hintText: 'No. of bags',
               hintStyle: TextStyle(fontSize: 16),
@@ -139,6 +95,7 @@ Widget buildCategoryCard(int index) {
           ),
           SizedBox(height: 5),
           TextField(
+            controller: kgController,
             decoration: InputDecoration(
               hintText: 'Kg of Waste',
               hintStyle: TextStyle(fontSize: 16),
