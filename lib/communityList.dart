@@ -4,7 +4,8 @@ import 'widgets.dart'; // Make sure to import required dependencies
 
 class CommunityListBuilder extends StatelessWidget {
   final Future<List<Community>> communities;
-  final Function(String?) onDropdownChanged;
+  final Function(Community?)?
+      onDropdownChanged; // Adjusted the type of onDropdownChanged
 
   const CommunityListBuilder({
     Key? key,
@@ -26,9 +27,7 @@ class CommunityListBuilder extends StatelessWidget {
           return SingleChildScrollView(
             child: CustomDropdown(
               dropdownItems: communityList,
-              onChange: (String? option) {
-                onDropdownChanged(option);
-              },
+              onChange: onDropdownChanged,
             ),
           );
         }

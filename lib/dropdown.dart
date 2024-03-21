@@ -9,7 +9,7 @@ void main() {
 
 class CustomDropdown extends StatefulWidget {
   final List<Community>? dropdownItems;
-  final void Function(String?)? onChange;
+  final Function(Community?)? onChange;
   const CustomDropdown({Key? key, this.dropdownItems, this.onChange})
       : super(key: key);
 
@@ -43,15 +43,15 @@ class _CustomDropdownState extends State<CustomDropdown> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: SingleChildScrollView(
-            child: DropdownMenu<String>(
+            child: DropdownMenu<Community>(
               menuHeight: 200,
               width: 200,
               controller: _controller,
               onSelected: widget.onChange,
               dropdownMenuEntries: widget.dropdownItems
-                      ?.map<DropdownMenuEntry<String>>(
-                        (item) => DropdownMenuEntry<String>(
-                          value: item.toString(),
+                      ?.map<DropdownMenuEntry<Community>>(
+                        (item) => DropdownMenuEntry<Community>(
+                          value: item,
                           label: item.toString(),
                         ),
                       )
