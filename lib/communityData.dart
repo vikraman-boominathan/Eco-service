@@ -35,8 +35,8 @@ class CommunityData {
 
   factory CommunityData.fromJson(Map<String, dynamic> json) {
     return CommunityData(
-      date: json['date'] as String,
-      communityId: json['community_id'] as String,
+      date: json['date'],
+      communityId: json['community_id'],
       mixedBags: json['mixed_bags'],
       glassBags: json['glass_bags'],
       plasticBags: json['plastic_bags'],
@@ -49,7 +49,7 @@ class CommunityData {
       kgOfPaper: json['kg_of_paper'],
       kgOfSegLf: json['kg_of_seg_lf'],
       kgOfSanitory: json['kg_of_sanitory'],
-      comments: json['comments'] as String,
+      comments: json['comments'],
     );
   }
 }

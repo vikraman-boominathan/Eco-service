@@ -78,42 +78,38 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<CommunityData> createCommunityData(CommunityData communityData) async {
-    print("before");
-    final response = await http.post(
-      Uri.parse(
-          'http://localhost:4000/api/add_waste'), // Replace this with your actual API endpoint
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'date': communityData.date,
-        'community_id': communityData.communityId,
-        'mixed_bags': communityData.mixedBags,
-        'glass_bags': communityData.glassBags,
-        'plastic_bags': communityData.plasticBags,
-        'paper_bags': communityData.paperBags,
-        'seg_lf_bags': communityData.segLfBags,
-        'sanitory_bags': communityData.sanitoryBags,
-        'kg_of_glass': communityData.kgOfGlass,
-        'kg_of_mixed': communityData.kgOfMixed,
-        'kg_of_plastic': communityData.kgOfPlastic,
-        'kg_of_paper': communityData.kgOfPaper,
-        'kg_of_seg_lf': communityData.kgOfSegLf,
-        'kg_of_sanitory': communityData.kgOfSanitory,
-        'comments': communityData.comments,
-      }),
-    );
-    print("hello");
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('POST', Uri.parse('http://localhost:4000/api/add_waste'));
+    request.body = json.encode({
+      'date': communityData.date,
+      'community_id': communityData.communityId,
+      'mixed_bags': communityData.mixedBags,
+      'glass_bags': communityData.glassBags,
+      'plastic_bags': communityData.plasticBags,
+      'paper_bags': communityData.paperBags,
+      'seg_lf_bags': communityData.segLfBags,
+      'sanitory_bags': communityData.sanitoryBags,
+      'kg_of_glass': communityData.kgOfGlass,
+      'kg_of_mixed': communityData.kgOfMixed,
+      'kg_of_plastic': communityData.kgOfPlastic,
+      'kg_of_paper': communityData.kgOfPaper,
+      'kg_of_seg_lf': communityData.kgOfSegLf,
+      'kg_of_sanitory': communityData.kgOfSanitory,
+      'comments': communityData.comments,
+    });
+    request.headers.addAll(headers);
 
+    http.StreamedResponse response = await request.send();
+print(response.statusCode);
     if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      return CommunityData.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
+      final responseBody = await utf8.decodeStream(response.stream);
+      print(responseBody);
+      final decodedData = jsonDecode(responseBody);
+      return CommunityData.fromJson(decodedData as Map<String, dynamic>);
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to create community data.');
+      throw Exception(
+          'Failed to create community data: ${response.reasonPhrase}');
     }
   }
 
@@ -168,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         CommunityData communityData = CommunityData(
-                          date: formattedDate1,
+                          date: "~D[2024-12-31]",
                           communityId: selectedDropdownValue ?? "",
                           mixedBags: int.parse(bagsController1.text),
                           kgOfMixed: double.parse(kgController1.text),
@@ -184,11 +180,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           kgOfSanitory: double.parse(kgController6.text),
                           comments: remarksController.text,
                         );
-
-                        print(communityData.glassBags);
+                        print('date: ${communityData.date}');
+                        print('community_id: ${communityData.communityId}');
+                        print('mixed_bags: ${communityData.mixedBags}');
+                        print('glass_bags: ${communityData.glassBags}');
+                        print('plastic_bags: ${communityData.plasticBags}');
+                        print('paper_bags: ${communityData.paperBags}');
+                        print('seg_lf_bags: ${communityData.segLfBags}');
+                        print('sanitory_bags: ${communityData.sanitoryBags}');
+                        print('kg_of_glass: ${communityData.kgOfGlass}');
+                        print('kg_of_mixed: ${communityData.kgOfMixed}');
+                        print('kg_of_plastic: ${communityData.kgOfPlastic}');
+                        print('kg_of_paper: ${communityData.kgOfPaper}');
+                        print('kg_of_seg_lf: ${communityData.kgOfSegLf}');
+                        print('kg_of_sanitory: ${communityData.kgOfSanitory}');
+                        print('comments: ${communityData.comments}');
                         CommunityData createdData = await createCommunityData(
                           communityData, /* pass community object here */
                         );
+
                         print(
                             "Community data created successfully: $createdData");
                       }
