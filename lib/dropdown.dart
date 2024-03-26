@@ -1,13 +1,17 @@
+import 'package:eco_service/main.dart';
 import 'package:flutter/material.dart';
+
+import 'communityList.dart';
 
 void main() {
   runApp(const CustomDropdown());
 }
 
 class CustomDropdown extends StatefulWidget {
-
-  const CustomDropdown({Key? key}) : super(key: key);
-
+  final List<Community>? dropdownItems;
+  final void Function(String?)? onChange;
+  const CustomDropdown({Key? key, this.dropdownItems, this.onChange})
+      : super(key: key);
 
   @override
   State<CustomDropdown> createState() => _CustomDropdownState();
@@ -20,25 +24,12 @@ class _CustomDropdownState extends State<CustomDropdown> {
   @override
   void initState() {
     super.initState();
-    _controller.text = 'Blue'; // Set initial value
+    _controller.text = 'Please select';
     _selectedOption = _controller.text;
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<String> dropdownItems = [
-      'Blue',
-      'Pink',
-      'Green',
-      'Orange',
-      'Grey',
-
-      'Pink',
-      'Green',
-      'Orange',
-      'Grey',
-    ];
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -48,32 +39,28 @@ class _CustomDropdownState extends State<CustomDropdown> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white, // Set background color to white
-            borderRadius: BorderRadius.circular(10), // Set border radius
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
           ),
           child: SingleChildScrollView(
             child: DropdownMenu<String>(
               menuHeight: 200,
               width: 200,
               controller: _controller,
-              onSelected: (String? option) {
-                setState(() {
-                  _selectedOption = option;
-                });
-              },
-              dropdownMenuEntries: dropdownItems
-                  .map<DropdownMenuEntry<String>>(
-                    (item) => DropdownMenuEntry<String>(
-                      value: item,
-                      label: item,
-                    ),
-                  )
-                  .toList(),
+              onSelected: widget.onChange,
+              dropdownMenuEntries: widget.dropdownItems
+                      ?.map<DropdownMenuEntry<String>>(
+                        (item) => DropdownMenuEntry<String>(
+                          value: item.toString(),
+                          label: item.toString(),
+                        ),
+                      )
+                      ?.toList() ??
+                  [],
             ),
           ),
         ),
       ],
-
     );
   }
 }
