@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'communityData.dart';
 
 void main() {
   runApp(MyApp());
@@ -51,11 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String? selectedDropdownValue;
   String formattedDate =
       DateFormat('dd-MM-yyyy').format(DateTime.now()); // Format current date
+  String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now()); // F
   String formattedDay = DateFormat('EEEE').format(DateTime.now());
 
   @override
   void initState() {
     super.initState();
+
     communities = fetchCommunities();
   }
 
@@ -67,9 +70,46 @@ class _MyHomePageState extends State<MyHomePage> {
       List<dynamic> jsonResponse = jsonDecode(response.body);
       List<Community> communities =
           jsonResponse.map((json) => Community.fromJson(json)).toList();
+
       return communities;
     } else {
       throw Exception('Failed to load communities');
+    }
+  }
+
+  Future<CommunityData> createCommunityData(CommunityData communityData) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('POST', Uri.parse('http://localhost:4000/api/add_waste'));
+    request.body = json.encode({
+      'date': communityData.date,
+      'community_id': communityData.communityId,
+      'mixed_bags': communityData.mixedBags,
+      'glass_bags': communityData.glassBags,
+      'plastic_bags': communityData.plasticBags,
+      'paper_bags': communityData.paperBags,
+      'seg_lf_bags': communityData.segLfBags,
+      'sanitory_bags': communityData.sanitoryBags,
+      'kg_of_glass': communityData.kgOfGlass,
+      'kg_of_mixed': communityData.kgOfMixed,
+      'kg_of_plastic': communityData.kgOfPlastic,
+      'kg_of_paper': communityData.kgOfPaper,
+      'kg_of_seg_lf': communityData.kgOfSegLf,
+      'kg_of_sanitory': communityData.kgOfSanitory,
+      'comments': communityData.comments,
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+print(response.statusCode);
+    if (response.statusCode == 201) {
+      final responseBody = await utf8.decodeStream(response.stream);
+      print(responseBody);
+      final decodedData = jsonDecode(responseBody);
+      return CommunityData.fromJson(decodedData as Map<String, dynamic>);
+    } else {
+      throw Exception(
+          'Failed to create community data: ${response.reasonPhrase}');
     }
   }
 
@@ -102,10 +142,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(height: 10),
                 CommunityListBuilder(
                   communities: communities,
-                  onDropdownChanged: (selectedValue) {
-                    setState(() {
-                      selectedDropdownValue = selectedValue;
-                    });
+                  onDropdownChanged: (community) {
+                    if (community != null) {
+                      // Check if community is not null
+                      setState(() {
+                        selectedDropdownValue = community.id;
+                      });
+                    }
                   },
                 ),
                 SizedBox(height: 10),
@@ -118,26 +161,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 buildRemarksCard(remarksController),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Form is validated, print the data
-                        print('Selected Date: $formattedDate');
-                        print('Selected Community: $selectedDropdownValue');
+                        CommunityData communityData = CommunityData(
+                          date: "~D[2024-12-31]",
+                          communityId: selectedDropdownValue ?? "",
+                          mixedBags: int.parse(bagsController1.text),
+                          kgOfMixed: double.parse(kgController1.text),
+                          glassBags: int.parse(bagsController2.text),
+                          kgOfGlass: double.parse(kgController2.text),
+                          plasticBags: int.parse(bagsController3.text),
+                          kgOfPlastic: double.parse(kgController3.text),
+                          paperBags: int.parse(bagsController4.text),
+                          kgOfPaper: double.parse(kgController4.text),
+                          segLfBags: int.parse(bagsController5.text),
+                          kgOfSegLf: double.parse(kgController5.text),
+                          sanitoryBags: int.parse(bagsController6.text),
+                          kgOfSanitory: double.parse(kgController6.text),
+                          comments: remarksController.text,
+                        );
+                        print('date: ${communityData.date}');
+                        print('community_id: ${communityData.communityId}');
+                        print('mixed_bags: ${communityData.mixedBags}');
+                        print('glass_bags: ${communityData.glassBags}');
+                        print('plastic_bags: ${communityData.plasticBags}');
+                        print('paper_bags: ${communityData.paperBags}');
+                        print('seg_lf_bags: ${communityData.segLfBags}');
+                        print('sanitory_bags: ${communityData.sanitoryBags}');
+                        print('kg_of_glass: ${communityData.kgOfGlass}');
+                        print('kg_of_mixed: ${communityData.kgOfMixed}');
+                        print('kg_of_plastic: ${communityData.kgOfPlastic}');
+                        print('kg_of_paper: ${communityData.kgOfPaper}');
+                        print('kg_of_seg_lf: ${communityData.kgOfSegLf}');
+                        print('kg_of_sanitory: ${communityData.kgOfSanitory}');
+                        print('comments: ${communityData.comments}');
+                        CommunityData createdData = await createCommunityData(
+                          communityData, /* pass community object here */
+                        );
 
                         print(
-                            'Category 1 - Bags: ${bagsController1.text}, Kg of Waste: ${kgController1.text}');
-                        print(
-                            'Category 2 - Bags: ${bagsController2.text}, Kg of Waste: ${kgController2.text}');
-                        print(
-                            'Category 3 - Bags: ${bagsController3.text}, Kg of Waste: ${kgController3.text}');
-                        print(
-                            'Category 4 - Bags: ${bagsController4.text}, Kg of Waste: ${kgController4.text}');
-                        print(
-                            'Category 5 - Bags: ${bagsController5.text}, Kg of Waste: ${kgController5.text}');
-                        print(
-                            'Category 6 - Bags: ${bagsController6.text}, Kg of Waste: ${kgController6.text}');
-
-                        print('Remarks: ${remarksController.text}');
+                            "Community data created successfully: $createdData");
                       }
                     },
                     style: ElevatedButton.styleFrom(
