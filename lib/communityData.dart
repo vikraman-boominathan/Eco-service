@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+
 
 import 'package:flutter/material.dart';
 import 'widgets.dart'; 
@@ -65,8 +65,8 @@ class CommunityData {
     );
   }
 }
-
-  Future<CommunityData?> createCommunityData(BuildContext context,CommunityData communityData) async {
+Future<CommunityData?> createCommunityData( CommunityData communityData,BuildContext context) async {
+  try {
     var headers = {'Content-Type': 'application/json'};
     var request =
         http.Request('POST', Uri.parse('http://localhost:4000/api/add_waste'));
@@ -90,10 +90,16 @@ class CommunityData {
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    print(response);
 
     if (response.statusCode == 201) {
       final responseBody = await utf8.decodeStream(response.stream);
-      
+      print(responseBody);
+
+      // Parse the response body to create a CommunityData object if needed
+      // For example:
+      // CommunityData createdData = CommunityData.fromJson(json.decode(responseBody));
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -111,9 +117,48 @@ class CommunityData {
           );
         },
       );
+
       
     } else {
-      throw Exception(
-          'Failed to create community data: ${response.reasonPhrase}');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Failed to create community data: ${response.reasonPhrase}"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      
     }
+  } catch (e) {
+    print('Error: $e');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text("An error occurred: $e"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+    
   }
+}
+

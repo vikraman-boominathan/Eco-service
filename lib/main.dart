@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart'; // Import other dependencies as needed
-import 'dropdown.dart'; // Import other dependencies as needed
-import 'communityList.dart'; // Import the CommunityListBuilder widget
+import 'widgets.dart';
+import 'dropdown.dart'; 
+import 'communityList.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -51,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String? selectedDropdownValue;
   String formattedDate =
-      DateFormat('dd-MM-yyyy').format(DateTime.now()); // Format current date
-  String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now()); // F
+      DateFormat('dd-MM-yyyy').format(DateTime.now()); 
+  String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now()); 
   String formattedDay = DateFormat('EEEE').format(DateTime.now());
 
   @override
@@ -93,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   communities: communities,
                   onDropdownChanged: (community) {
                     if (community != null) {
-                      // Check if community is not null
                       setState(() {
                         selectedDropdownValue = community.id;
                       });
@@ -113,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         CommunityData communityData = CommunityData(
-                          date: "~D[2024-12-31]",
+                          date: "~D[$formattedDate1]",
                           communityId: selectedDropdownValue ?? "",
                           mixedBags: int.parse(bagsController1.text),
                           kgOfMixed: double.parse(kgController1.text),
@@ -129,6 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
                           kgOfSanitory: double.parse(kgController6.text),
                           comments: remarksController.text,
                         );
+
+                        CommunityData? createdData =
+                            await createCommunityData(communityData, context);
+                        remarksController.clear();
+                        bagsController1.clear();
+                        kgController1.clear();
+                        bagsController2.clear();
+                        kgController2.clear();
+                        bagsController3.clear();
+                        kgController3.clear();
+                        bagsController4.clear();
+                        kgController4.clear();
+                        bagsController5.clear();
+                        kgController5.clear();
+                        bagsController6.clear();
+                        kgController6.clear();
                       }
                     },
                     style: ElevatedButton.styleFrom(
