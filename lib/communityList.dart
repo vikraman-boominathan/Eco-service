@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dropdown.dart'; // Make sure to import required dependencies
 import 'widgets.dart'; // Make sure to import required dependencies
+import 'package:http/http.dart' as http;
 
 class CommunityListBuilder extends StatelessWidget {
   final Future<List<Community>> communities;
@@ -58,5 +62,33 @@ class Community {
   @override
   String toString() {
     return name; // or any other representation you prefer
+  }
+}
+Future<List<Community>> fetchCommunities() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  
+  // Check if data exists locally
+  final String? storedData = prefs.getString('community_data');
+  if (storedData != null) {
+    List<dynamic> jsonResponse = jsonDecode(storedData);
+    List<Community> communities =
+        jsonResponse.map((json) => Community.fromJson(json)).toList();
+    return communities;
+  } else {
+    final response = await http
+        .get(Uri.parse('http://localhost:4000/api/list_of_communities'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = jsonDecode(response.body);
+      List<Community> communities =
+          jsonResponse.map((json) => Community.fromJson(json)).toList();
+      
+      // Store data locally
+      await prefs.setString('community_data', jsonEncode(jsonResponse));
+
+      return communities;
+    } else {
+      throw Exception('Failed to load communities');
+    }
   }
 }

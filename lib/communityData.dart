@@ -1,3 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
+import 'widgets.dart'; 
+import 'dropdown.dart'; 
+import 'communityList.dart'; 
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'communityData.dart';
+
 class CommunityData {
   final String date;
   final String communityId;
@@ -53,3 +65,55 @@ class CommunityData {
     );
   }
 }
+
+  Future<CommunityData?> createCommunityData(BuildContext context,CommunityData communityData) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('POST', Uri.parse('http://localhost:4000/api/add_waste'));
+    request.body = json.encode({
+      'date': communityData.date,
+      'community_id': communityData.communityId,
+      'mixed_bags': communityData.mixedBags,
+      'glass_bags': communityData.glassBags,
+      'plastic_bags': communityData.plasticBags,
+      'paper_bags': communityData.paperBags,
+      'seg_lf_bags': communityData.segLfBags,
+      'sanitory_bags': communityData.sanitoryBags,
+      'kg_of_glass': communityData.kgOfGlass,
+      'kg_of_mixed': communityData.kgOfMixed,
+      'kg_of_plastic': communityData.kgOfPlastic,
+      'kg_of_paper': communityData.kgOfPaper,
+      'kg_of_seg_lf': communityData.kgOfSegLf,
+      'kg_of_sanitory': communityData.kgOfSanitory,
+      'comments': communityData.comments,
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 201) {
+      final responseBody = await utf8.decodeStream(response.stream);
+      
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Success"),
+            content: Text("$responseBody"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      
+    } else {
+      throw Exception(
+          'Failed to create community data: ${response.reasonPhrase}');
+    }
+  }
