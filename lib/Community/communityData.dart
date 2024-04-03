@@ -90,15 +90,11 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-    print(response);
+    print(response.reasonPhrase);
 
     if (response.statusCode == 201) {
       final responseBody = await utf8.decodeStream(response.stream);
       print(responseBody);
-
-      // Parse the response body to create a CommunityData object if needed
-      // For example:
-      // CommunityData createdData = CommunityData.fromJson(json.decode(responseBody));
 
       showDialog(
         context: context,
