@@ -43,20 +43,23 @@ class Community {
   final String id;
   final String location;
   final String name;
+  final String day;
 
   Community({
     required this.id,
     required this.location,
     required this.name,
+    required this.day,
   });
 
   factory Community.fromJson(Map<String, dynamic> json) {
-    return Community(
-      id: json['community_id'] as String,
-      location: json['community_location'] as String,
-      name: json['community_name'] as String,
-    );
-  }
+  return Community(
+    id: json['community_id'] as String? ?? '',
+    location: json['community_location'] as String? ?? '',
+    name: json['community_name'] as String? ?? '',
+    day: json['day_of_week'] as String? ?? '',
+  );
+}
 
   @override
   String toString() {
@@ -68,25 +71,37 @@ Future<List<Community>> fetchCommunities() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   final String? storedData = prefs.getString('community_data');
-  if (storedData != null) {
-    List<dynamic> jsonResponse = jsonDecode(storedData);
-    List<Community> communities =
-        jsonResponse.map((json) => Community.fromJson(json)).toList();
-    return communities;
-  } else {
-    final response = await http
-        .get(Uri.parse('http://localhost:4000/api/list_of_communities'));
+  final int? storedTime = prefs.getInt('community_data_timestamp');
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = jsonDecode(response.body);
+  if (storedData != null && storedTime != null) {
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final oneMinuteInMilliseconds = 60 * 1000;
+
+    if (currentTime - storedTime <= oneMinuteInMilliseconds) {
+      List<dynamic> jsonResponse = jsonDecode(storedData);
       List<Community> communities =
           jsonResponse.map((json) => Community.fromJson(json)).toList();
-
-      await prefs.setString('community_data', jsonEncode(jsonResponse));
-
       return communities;
     } else {
-      throw Exception('Failed to load communities');
+      await prefs.remove('community_data');
+      await prefs.remove('community_data_timestamp');
     }
   }
+
+  final response = await http
+      .get(Uri.parse('http://localhost:4000/api/schedule_details'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> jsonResponse = jsonDecode(response.body);
+    List<Community> communities =
+        jsonResponse.map((json) => Community.fromJson(json)).toList();
+
+    await prefs.setString('community_data', jsonEncode(jsonResponse));
+    await prefs.setInt('community_data_timestamp', DateTime.now().millisecondsSinceEpoch);
+
+    return communities;
+  } else {
+    throw Exception('Failed to load communities');
+  }
 }
+

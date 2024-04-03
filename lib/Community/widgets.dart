@@ -86,21 +86,23 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
           SizedBox(height: 5),
           TextField(
             controller: bagsController,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: 'No. of bags',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+              contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
             ),
           ),
           SizedBox(height: 5),
           TextField(
             controller: kgController,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: 'Kg of Waste',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+              contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 8.0),
             ),
           ),
           SizedBox(height: 5),
@@ -109,6 +111,7 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
     ),
   );
 }
+
 
 Widget buildRemarksCard(TextEditingController remarksController) {
   return Card(
