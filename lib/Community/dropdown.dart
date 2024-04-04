@@ -64,3 +64,14 @@ class _CustomDropdownState extends State<CustomDropdown> {
     );
   }
 }
+
+ // CommunityListBuilder(
+                //   communities: communities,
+                //   onDropdownChanged: (community) {
+                //     if (community != null) {
+                //       setState(() {
+                //         selectedDropdownValue = community.id;
+                //       });
+                //     }
+                //   },
+                // ),

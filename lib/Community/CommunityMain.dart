@@ -45,8 +45,11 @@ class _CommunityMainState extends State<CommunityMain> {
 
   @override
   Widget build(BuildContext context) {
+    final String communityName =
+        ModalRoute.of(context)?.settings.arguments as String? ?? 'Unknown';
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(color: Color.fromARGB(255, 140, 201, 143)),
         title: Text(
           'ECO Service',
           style: TextStyle(
@@ -57,6 +60,7 @@ class _CommunityMainState extends State<CommunityMain> {
         ),
         backgroundColor: Colors.white,
       ),
+      backgroundColor: Color.fromARGB(255, 140, 201, 143),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -66,36 +70,30 @@ class _CommunityMainState extends State<CommunityMain> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 10),
-                buildDateAndDayCards(
-                    "Date", "Day", formattedDate, formattedDay),
+                buildNamedCards("Community", "Location_Area_Zone",
+                    communityName, formattedDay),
                 SizedBox(height: 10),
-                CommunityListBuilder(
-                  communities: communities,
-                  onDropdownChanged: (community) {
-                    if (community != null) {
-                      setState(() {
-                        selectedDropdownValue = community.id;
-                      });
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                GridView.count(
-                  primary: false,
-                  padding: const EdgeInsets.all(20),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  children: [
-                    buildCategoryCard(1, bagsController1, kgController1),
-                    buildCategoryCard(2, bagsController2, kgController2),
-                    buildCategoryCard(3, bagsController3, kgController3),
-                    buildCategoryCard(4, bagsController4, kgController4),
-                    buildCategoryCard(5, bagsController5, kgController5),
-                    buildCategoryCard(6, bagsController6, kgController6),
-                  ],
+                buildButtons(),
+               
+                SizedBox(height: 30),
+                Container(
+                  height: 350,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                    childAspectRatio: 2,
+                    crossAxisCount: 2,
+                    children: [
+                      buildCategoryCard(1, bagsController1, kgController1),
+                      buildCategoryCard(2, bagsController2, kgController2),
+                      buildCategoryCard(3, bagsController3, kgController3),
+                      buildCategoryCard(4, bagsController4, kgController4),
+                      buildCategoryCard(5, bagsController5, kgController5),
+                      buildCategoryCard(6, bagsController6, kgController6),
+                    ],
+                  ),
                 ),
                 buildRemarksCard(remarksController),
+                SizedBox(height: 10),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
@@ -153,3 +151,4 @@ class _CommunityMainState extends State<CommunityMain> {
     );
   }
 }
+
