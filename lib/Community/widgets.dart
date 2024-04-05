@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; 
+import 'package:intl/intl.dart';
 
-Widget buildDateAndDayCards(
-    String date, String day, String formattedDate, String formattedDay) {
-  
-
+Widget buildNamedCards(
+    String name1, String name2, String value1, String value2) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
@@ -15,7 +13,7 @@ Widget buildDateAndDayCards(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$date',
+            '$name1',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(width: 10),
@@ -25,7 +23,7 @@ Widget buildDateAndDayCards(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  formattedDate.toString(),
+                  value1,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -38,7 +36,7 @@ Widget buildDateAndDayCards(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$day',
+            '$name2',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(width: 10),
@@ -48,7 +46,7 @@ Widget buildDateAndDayCards(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  formattedDay.toString(),
+                 value2,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -70,8 +68,7 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
     "Plastic",
     "Paper"
   ];
-  String category =
-      categories[index - 1]; 
+  String category = categories[index - 1];
 
   return Card(
     child: Padding(
@@ -91,27 +88,27 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
               hintText: 'No. of bags',
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
             ),
           ),
-          SizedBox(height: 5),
-          TextField(
-            controller: kgController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: 'Kg of Waste',
-              hintStyle: TextStyle(fontSize: 16),
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 8.0),
-            ),
-          ),
-          SizedBox(height: 5),
+          // SizedBox(height: 5),
+          // // TextField(
+          // //   controller: kgController,
+          // //   keyboardType: TextInputType.number,
+          // //   decoration: InputDecoration(
+          // //     hintText: 'Kg of Waste',
+          // //     hintStyle: TextStyle(fontSize: 16),
+          // //     border: OutlineInputBorder(),
+          // //     contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 8.0),
+          // //   ),
+          // // ),
+          // SizedBox(height: 5),
         ],
       ),
     ),
   );
 }
-
 
 Widget buildRemarksCard(TextEditingController remarksController) {
   return Card(
@@ -126,7 +123,7 @@ Widget buildRemarksCard(TextEditingController remarksController) {
           ),
           SizedBox(height: 10),
           TextField(
-            controller: remarksController, 
+            controller: remarksController,
             decoration: InputDecoration(
               hintText: 'Remarks',
               hintStyle: TextStyle(fontSize: 16),
@@ -139,3 +136,32 @@ Widget buildRemarksCard(TextEditingController remarksController) {
     ),
   );
 }
+
+Widget buildButtons() {
+    return Center(
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton.icon(
+              onPressed: () {
+                
+              },
+              icon: Icon(Icons.location_on),
+              label: Text('Location'),
+            ),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: ElevatedButton.icon(
+              onPressed: () {
+                
+              },
+              icon: Icon(Icons.image),
+              label: Text('Image'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
