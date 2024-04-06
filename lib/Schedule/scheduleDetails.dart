@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../Community/communityList.dart';
 import 'scheduleWidgets.dart';
+import '../Community/dropdown.dart';
 
 class ScheduleDetails extends StatefulWidget {
   @override
@@ -17,7 +19,15 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
 
   String? selectedValue;
 
+  late Future<List<Community>> communities;
+
   @override
+  void initState() {
+    super.initState();
+
+    communities = fetchCommunities();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -56,14 +66,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  buildCommunityTile(context, 'Aspiration'),
-                  buildCommunityTile(context, 'Celebration'),
-                  buildCommunityTile(context, 'Shakthi'),
-                  buildCommunityTile(context, 'New Creation'),
-                ],
-              ),
+              child:buildListTile(context,)
             ),
             ElevatedButton(
               onPressed: () {
@@ -75,30 +78,21 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          DropdownButton<String>(
-                            value: selectedValue,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedValue = newValue;
-                              });
+                          CommunityListBuilder(
+                            communities: communities,
+                            onDropdownChanged: (community) {
+                              if (community != null) {
+                                setState(() {
+                                  selectedValue = community.id;
+                                });
+                              }
                             },
-                            items: <String>[
-                              'Community A',
-                              'Community B',
-                              'Community C'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
-                              // Handle submission here
                               print('Selected Value: $selectedValue');
-                              Navigator.of(context).pop(); // Close the dialog
+                              Navigator.of(context).pop();
                             },
                             child: Text('Submit'),
                           ),

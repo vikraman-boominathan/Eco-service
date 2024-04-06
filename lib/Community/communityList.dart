@@ -43,13 +43,17 @@ class Community {
   final String id;
   final String location;
   final String name;
-  final String day;
+  final String gate_photo_file_name;
+  final double lat;
+  final double long;
 
   Community({
     required this.id,
     required this.location,
     required this.name,
-    required this.day,
+    required this.gate_photo_file_name,
+    required this.lat,
+    required this.long,
   });
 
   factory Community.fromJson(Map<String, dynamic> json) {
@@ -57,7 +61,9 @@ class Community {
     id: json['community_id'] as String? ?? '',
     location: json['community_location'] as String? ?? '',
     name: json['community_name'] as String? ?? '',
-    day: json['day_of_week'] as String? ?? '',
+    gate_photo_file_name: json['gate_photo_file_name'] as String? ?? '',
+    lat: json['latitude']as double? ?? 0.0,
+    long: json['longtitude']as double? ?? 0.0, 
   );
 }
 
@@ -89,7 +95,7 @@ Future<List<Community>> fetchCommunities() async {
   }
 
   final response = await http
-      .get(Uri.parse('http://localhost:4000/api/schedule_details'));
+      .get(Uri.parse('http://localhost:4000/api/list_of_communities'));
 
   if (response.statusCode == 200) {
     List<dynamic> jsonResponse = jsonDecode(response.body);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Community/communityList.dart';
+
 Widget buildDateAndDayCards(
     String date, String day, String formattedDate, String formattedDay) {
   return Column(
@@ -81,3 +83,26 @@ Widget buildCommunityTile(BuildContext context, String communityName) {
     ),
   );
 }
+
+
+  Widget buildListTile(BuildContext context) {
+    return FutureBuilder<List<Community>>(
+      future: fetchCommunities(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          List<Community> communities = snapshot.data!;
+          return ListView.builder(
+            itemCount: communities.length,
+            itemBuilder: (context, index) {
+              return buildCommunityTile(context, communities[index].name);
+            },
+          );
+        }
+      },
+    );
+  }
+

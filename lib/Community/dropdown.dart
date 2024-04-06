@@ -33,10 +33,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Community',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        // Text(
+        //   'Community',
+        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        // ),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
