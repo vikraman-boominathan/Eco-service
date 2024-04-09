@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../Community/communityList.dart';
+import 'scheduleList.dart';
 import 'scheduleWidgets.dart';
+import 'scheduledata.dart';
 
-class ScheduleDetails extends StatefulWidget {
+class ScheduleDetailScreen extends StatefulWidget {
+  const ScheduleDetailScreen({super.key});
+
   @override
-  State<ScheduleDetails> createState() => _ScheduleDetailsState();
+  State<ScheduleDetailScreen> createState() => _ScheduleDetailScreenState();
 }
 
-class _ScheduleDetailsState extends State<ScheduleDetails> {
+class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
   String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -17,7 +22,17 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
 
   String? selectedValue;
 
+  late Future<List<Community>> communities;
+
   @override
+  void initState() {
+    super.initState();
+
+    communities = fetchCommunities();
+    
+    
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -56,14 +71,7 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  buildCommunityTile(context, 'Aspiration'),
-                  buildCommunityTile(context, 'Celebration'),
-                  buildCommunityTile(context, 'Shakthi'),
-                  buildCommunityTile(context, 'New Creation'),
-                ],
-              ),
+              child:buildListTile(context,)
             ),
             ElevatedButton(
               onPressed: () {
@@ -75,30 +83,31 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          DropdownButton<String>(
-                            value: selectedValue,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedValue = newValue;
-                              });
+                          CommunityListBuilder(
+                            communities: communities,
+                            onDropdownChanged: (community) {
+                              if (community != null) {
+                                setState(() {
+                                  selectedValue = community.id;
+                                });
+                              }
                             },
-                            items: <String>[
-                              'Community A',
-                              'Community B',
-                              'Community C'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
-                              // Handle submission here
-                              print('Selected Value: $selectedValue');
-                              Navigator.of(context).pop(); // Close the dialog
+                            onPressed: () async {
+                               ScheduleDetails details = await getDetails();
+                              ScheduleData scheduleData = ScheduleData(
+                          
+                          communityId: selectedValue ?? "",
+                          schedule_id: details.scheduleId,
+                          
+                        );
+
+                        ScheduleData? createdData =
+                            await createScheduleData(scheduleData);
+                              print('selected Value: $selectedValue');
+                              Navigator.of(context).pop();
                             },
                             child: Text('Submit'),
                           ),

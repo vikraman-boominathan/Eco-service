@@ -74,21 +74,20 @@ class _CommunityMainState extends State<CommunityMain> {
                     communityName, formattedDay),
                 SizedBox(height: 10),
                 buildButtons(),
-               
                 SizedBox(height: 30),
                 Container(
-                  height: 350,
                   width: MediaQuery.of(context).size.width,
                   child: GridView.count(
-                    childAspectRatio: 2,
+                    childAspectRatio: 1/.6,
                     crossAxisCount: 2,
+                    shrinkWrap: true,
                     children: [
-                      buildCategoryCard(1, bagsController1, kgController1),
-                      buildCategoryCard(2, bagsController2, kgController2),
-                      buildCategoryCard(3, bagsController3, kgController3),
-                      buildCategoryCard(4, bagsController4, kgController4),
-                      buildCategoryCard(5, bagsController5, kgController5),
-                      buildCategoryCard(6, bagsController6, kgController6),
+                      buildCategoryCard(1, bagsController1, kgController1,),
+                      buildCategoryCard(2, bagsController2, kgController2,),
+                      buildCategoryCard(3, bagsController3, kgController3,),
+                      buildCategoryCard(4, bagsController4, kgController4,),
+                      buildCategoryCard(5, bagsController5, kgController5,),
+                      buildCategoryCard(6, bagsController6, kgController6,),
                     ],
                   ),
                 ),
@@ -151,4 +150,3 @@ class _CommunityMainState extends State<CommunityMain> {
     );
   }
 }
-

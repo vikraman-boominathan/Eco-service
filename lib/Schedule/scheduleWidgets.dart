@@ -1,4 +1,8 @@
+import 'package:eco_service/Schedule/scheduleList.dart';
 import 'package:flutter/material.dart';
+
+import '../Community/communityList.dart';
+import 'scheduleList.dart';
 
 Widget buildDateAndDayCards(
     String date, String day, String formattedDate, String formattedDay) {
@@ -14,7 +18,7 @@ Widget buildDateAndDayCards(
           ),
           SizedBox(width: 10),
           Container(
-            width: 200,
+            width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -37,7 +41,7 @@ Widget buildDateAndDayCards(
           ),
           SizedBox(width: 10),
           Container(
-            width: 200,
+            width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -81,3 +85,27 @@ Widget buildCommunityTile(BuildContext context, String communityName) {
     ),
   );
 }
+
+
+  Widget buildListTile(BuildContext context) {
+    return FutureBuilder<ScheduleDetails>(
+      future: getDetails(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          ScheduleDetails scheduleDetails = snapshot.data!;
+        List<Community> communities = scheduleDetails.communities;
+          return ListView.builder(
+            itemCount: communities.length,
+            itemBuilder: (context, index) {
+              return buildCommunityTile(context, communities[index].name);
+            },
+          );
+        }
+      },
+    );
+  }
+
