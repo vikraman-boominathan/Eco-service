@@ -14,7 +14,7 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case schedule_details:
       return MaterialPageRoute(
-        builder: (context) => ScheduleDetails(),
+        builder: (context) => ScheduleDetailScreen(),
       );
     
     default:

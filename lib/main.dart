@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/communityMain': (context) => CommunityMain(),
       },
-      home: ScheduleDetails(),
+      home: ScheduleDetailScreen(),
     );
   }
 }

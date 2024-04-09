@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'scheduleList.dart';
+
 class ScheduleData {
   final String communityId;
   final String schedule_id;
@@ -22,11 +24,10 @@ class ScheduleData {
   }
 }
 
-Future<ScheduleData?> createScheduleData( ScheduleData scheduleData,BuildContext context) async {
-  try {
+Future<ScheduleData?> createScheduleData( ScheduleData scheduleData) async {
     var headers = {'Content-Type': 'application/json'};
     var request =
-        http.Request('POST', Uri.parse('http://localhost:4000/api/add_waste'));
+        http.Request('POST', Uri.parse('http://localhost:4000/api/add_schedules'));
     request.body = json.encode({
       'community_id': scheduleData.communityId,
       'schedule_id': scheduleData.schedule_id,
@@ -39,66 +40,7 @@ Future<ScheduleData?> createScheduleData( ScheduleData scheduleData,BuildContext
 
     if (response.statusCode == 201) {
       final responseBody = await utf8.decodeStream(response.stream);
+      getDetails();
       print(responseBody);
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Success"),
-            content: Text("$responseBody"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-
-      
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Failed to create community data: ${response.reasonPhrase}"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-      
     }
-  } catch (e) {
-    print('Error: $e');
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text("An error occurred: $e"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-    
-  }
 }

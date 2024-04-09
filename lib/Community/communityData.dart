@@ -19,12 +19,12 @@ class CommunityData {
   final int paperBags;
   final int segLfBags;
   final int sanitoryBags;
-  final double kgOfGlass;
-  final double kgOfMixed;
-  final double kgOfPlastic;
-  final double kgOfPaper;
-  final double kgOfSegLf;
-  final double kgOfSanitory;
+  final double? kgOfGlass;
+  final double? kgOfMixed;
+  final double? kgOfPlastic;
+  final double? kgOfPaper;
+  final double? kgOfSegLf;
+  final double? kgOfSanitory;
   final String? comments;
 
   CommunityData({
@@ -36,12 +36,12 @@ class CommunityData {
     required this.paperBags,
     required this.segLfBags,
     required this.sanitoryBags,
-    required this.kgOfGlass,
-    required this.kgOfMixed,
-    required this.kgOfPlastic,
-    required this.kgOfPaper,
-    required this.kgOfSegLf,
-    required this.kgOfSanitory,
+   this.kgOfGlass,
+   this.kgOfMixed,
+   this.kgOfPlastic,
+   this.kgOfPaper,
+   this.kgOfSegLf,
+   this.kgOfSanitory,
     this.comments,
   });
 

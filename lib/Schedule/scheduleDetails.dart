@@ -6,14 +6,14 @@ import 'scheduleList.dart';
 import 'scheduleWidgets.dart';
 import 'scheduledata.dart';
 
-class ScheduleDetails extends StatefulWidget {
-  const ScheduleDetails({super.key});
+class ScheduleDetailScreen extends StatefulWidget {
+  const ScheduleDetailScreen({super.key});
 
   @override
-  State<ScheduleDetails> createState() => _ScheduleDetailsState();
+  State<ScheduleDetailScreen> createState() => _ScheduleDetailScreenState();
 }
 
-class _ScheduleDetailsState extends State<ScheduleDetails> {
+class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
   String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -23,8 +23,6 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
   String? selectedValue;
 
   late Future<List<Community>> communities;
-
-  late ScheduleDetails scheduleDetails;
 
   @override
   void initState() {
@@ -102,13 +100,13 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                               ScheduleData scheduleData = ScheduleData(
                           
                           communityId: selectedValue ?? "",
-                          schedule_id: ,
+                          schedule_id: details.scheduleId,
                           
                         );
 
                         ScheduleData? createdData =
-                            await createScheduleData(scheduleData, context);
-                              print('SfetchScheduleDetailselected Value: $selectedValue');
+                            await createScheduleData(scheduleData);
+                              print('selected Value: $selectedValue');
                               Navigator.of(context).pop();
                             },
                             child: Text('Submit'),
