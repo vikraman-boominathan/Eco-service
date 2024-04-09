@@ -18,7 +18,7 @@ Widget buildNamedCards(
           ),
           SizedBox(width: 10),
           Container(
-            width: 200,
+            width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -41,7 +41,7 @@ Widget buildNamedCards(
           ),
           SizedBox(width: 10),
           Container(
-            width: 200,
+            width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

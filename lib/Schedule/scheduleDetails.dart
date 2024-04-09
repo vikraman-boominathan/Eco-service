@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../Community/communityList.dart';
+import 'scheduleList.dart';
 import 'scheduleWidgets.dart';
-import '../Community/dropdown.dart';
+import 'scheduledata.dart';
 
 class ScheduleDetails extends StatefulWidget {
+  const ScheduleDetails({super.key});
+
   @override
   State<ScheduleDetails> createState() => _ScheduleDetailsState();
 }
@@ -21,11 +24,15 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
 
   late Future<List<Community>> communities;
 
+  late ScheduleDetails scheduleDetails;
+
   @override
   void initState() {
     super.initState();
 
     communities = fetchCommunities();
+    
+    
   }
 
   Widget build(BuildContext context) {
@@ -90,8 +97,18 @@ class _ScheduleDetailsState extends State<ScheduleDetails> {
                           ),
                           SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
-                              print('Selected Value: $selectedValue');
+                            onPressed: () async {
+                               ScheduleDetails details = await getDetails();
+                              ScheduleData scheduleData = ScheduleData(
+                          
+                          communityId: selectedValue ?? "",
+                          schedule_id: ,
+                          
+                        );
+
+                        ScheduleData? createdData =
+                            await createScheduleData(scheduleData, context);
+                              print('SfetchScheduleDetailselected Value: $selectedValue');
                               Navigator.of(context).pop();
                             },
                             child: Text('Submit'),
