@@ -108,6 +108,9 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                             await createScheduleData(scheduleData);
                               print('selected Value: $selectedValue');
                               Navigator.of(context).pop();
+                              setState(() {
+                                
+                              });
                             },
                             child: Text('Submit'),
                           ),
