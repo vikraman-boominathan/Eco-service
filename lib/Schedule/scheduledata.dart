@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'scheduleList.dart';
 
 class ScheduleData {
   final String communityId;
@@ -43,4 +40,5 @@ Future<ScheduleData?> createScheduleData( ScheduleData scheduleData) async {
       // getDetails();
       print(responseBody);
     }
+    return null;
 }

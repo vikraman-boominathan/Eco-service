@@ -1,10 +1,8 @@
-import 'package:eco_service/Schedule/scheduleList.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 
+import '../Community/community.g.dart';
 import '../Community/communityList.dart';
-import 'scheduleList.dart';
 
 Widget buildDateAndDayCards(
     String date, String day, String formattedDate, String formattedDay) {
@@ -15,41 +13,41 @@ Widget buildDateAndDayCards(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$date',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            date,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 10),
-          Container(
+          const SizedBox(width: 10),
+          SizedBox(
             width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   formattedDate.toString(),
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
           ),
         ],
       ),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$day',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            day,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 10),
-          Container(
+          const SizedBox(width: 10),
+          SizedBox(
             width: 125,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   formattedDay.toString(),
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
@@ -68,11 +66,11 @@ Widget buildCommunityTile(BuildContext context, String communityName) {
         width: 60,
         height: 30,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 94, 160, 98),
-          borderRadius: BorderRadius.circular(15), // Rounded corners
+          color: const Color.fromARGB(255, 94, 160, 98),
+          borderRadius: BorderRadius.circular(15), 
         ),
         child: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.add,
             color: Colors.white,
           ),
@@ -94,7 +92,7 @@ Widget buildCommunityTile(BuildContext context, String communityName) {
     valueListenable: Hive.box('communitiesBox').listenable(),
     builder: (context, box, _) {
       if (box.isEmpty) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       } else {
         final List<Community> communities = box.get('communities', defaultValue: []);
         return ListView.builder(
