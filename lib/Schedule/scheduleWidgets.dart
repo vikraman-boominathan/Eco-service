@@ -1,5 +1,7 @@
 import 'package:eco_service/Schedule/scheduleList.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 import '../Community/communityList.dart';
 import 'scheduleList.dart';
@@ -88,24 +90,21 @@ Widget buildCommunityTile(BuildContext context, String communityName) {
 
 
   Widget buildListTile(BuildContext context) {
-    return FutureBuilder<ScheduleDetails>(
-      future: getDetails(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          ScheduleDetails scheduleDetails = snapshot.data!;
-        List<Community> communities = scheduleDetails.communities;
-          return ListView.builder(
-            itemCount: communities.length,
-            itemBuilder: (context, index) {
-              return buildCommunityTile(context, communities[index].name);
-            },
-          );
-        }
-      },
-    );
-  }
+  return ValueListenableBuilder<Box>(
+    valueListenable: Hive.box('communitiesBox').listenable(),
+    builder: (context, box, _) {
+      if (box.isEmpty) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        final List<Community> communities = box.get('communities', defaultValue: []);
+        return ListView.builder(
+          itemCount: communities.length,
+          itemBuilder: (context, index) {
+            return buildCommunityTile(context, communities[index].name);
+          },
+        );
+      }
+    },
+  );
+}
 

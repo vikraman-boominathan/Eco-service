@@ -96,16 +96,16 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
-                               ScheduleDetails details = await getDetails();
-                              ScheduleData scheduleData = ScheduleData(
+                              //  ScheduleDetails details = await getDetails();
+                        //       ScheduleData scheduleData = ScheduleData(
                           
-                          communityId: selectedValue ?? "",
-                          schedule_id: details.scheduleId,
+                        //   communityId: selectedValue ?? "",
+                        //   // schedule_id: details.scheduleId,
                           
-                        );
+                        // );
 
-                        ScheduleData? createdData =
-                            await createScheduleData(scheduleData);
+                        // ScheduleData? createdData =
+                        //     await createScheduleData(scheduleData);
                               print('selected Value: $selectedValue');
                               Navigator.of(context).pop();
                               setState(() {

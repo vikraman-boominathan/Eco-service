@@ -40,7 +40,7 @@ Future<ScheduleData?> createScheduleData( ScheduleData scheduleData) async {
 
     if (response.statusCode == 201) {
       final responseBody = await utf8.decodeStream(response.stream);
-      getDetails();
+      // getDetails();
       print(responseBody);
     }
 }
