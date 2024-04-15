@@ -1,8 +1,11 @@
-import 'package:eco_service/Schedule/scheduleList.dart';
+import 'package:eco_service/api/scheduleList.dart';
 import 'package:flutter/material.dart';
 
-import '../Community/communityList.dart';
-import 'scheduleList.dart';
+import '../api/communityList.dart';
+import '../api/scheduleList.dart';
+
+import '../hive/community.dart';
+
 
 Widget buildDateAndDayCards(
     String date, String day, String formattedDate, String formattedDay) {

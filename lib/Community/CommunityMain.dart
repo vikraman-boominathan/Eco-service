@@ -1,11 +1,12 @@
 import 'package:intl/intl.dart';
-import 'communityData.dart';
-import 'communityList.dart';
+import '../api/communityData.dart';
+import '../api/communityList.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
 import 'widgets.dart';
+import '../hive/community.dart';
 
 class CommunityMain extends StatefulWidget {
   @override

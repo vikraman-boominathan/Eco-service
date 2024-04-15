@@ -1,7 +1,10 @@
-import 'package:eco_service/Community/communityList.dart';
+import 'package:eco_service/api/communityList.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+
+import '../hive/community.dart';
+
 
 class ScheduleDetails {
   final List<Community> communities;

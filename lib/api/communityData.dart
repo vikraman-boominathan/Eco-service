@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'widgets.dart'; 
-import 'dropdown.dart'; 
+import '../Community/widgets.dart'; 
+import '../Community/dropdown.dart'; 
 import 'communityList.dart'; 
 import 'package:http/http.dart' as http;
 import 'dart:async';

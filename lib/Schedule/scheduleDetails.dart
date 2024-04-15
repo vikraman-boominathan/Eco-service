@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../Community/communityList.dart';
-import 'scheduleList.dart';
+import '../api/communityList.dart';
+import '../api/scheduleList.dart';
 import 'scheduleWidgets.dart';
-import 'scheduledata.dart';
+import '../api/scheduledata.dart';
+import '../hive/community.dart';
 
 class ScheduleDetailScreen extends StatefulWidget {
   const ScheduleDetailScreen({super.key});
@@ -24,13 +26,15 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
 
   late Future<List<Community>> communities;
 
+  final Box<Community> communityBox = Hive.box<Community>('communities');
+  
+
   @override
   void initState() {
     super.initState();
+    
 
-    communities = fetchCommunities();
-    
-    
+    //  communities =fetchCommunities();
   }
 
   Widget build(BuildContext context) {
@@ -71,10 +75,12 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child:buildListTile(context,)
-            ),
+                child: buildListTile(
+              context,
+            )),
             ElevatedButton(
               onPressed: () {
+                fetchCommunities();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -84,7 +90,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CommunityListBuilder(
-                            communities: communities,
+                            communities: communityBox.values.toList(),
                             onDropdownChanged: (community) {
                               if (community != null) {
                                 setState(() {
@@ -96,21 +102,17 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
-                               ScheduleDetails details = await getDetails();
+                              ScheduleDetails details = await getDetails();
                               ScheduleData scheduleData = ScheduleData(
-                          
-                          communityId: selectedValue ?? "",
-                          schedule_id: details.scheduleId,
-                          
-                        );
+                                communityId: selectedValue ?? "",
+                                schedule_id: details.scheduleId,
+                              );
 
-                        ScheduleData? createdData =
-                            await createScheduleData(scheduleData);
+                              ScheduleData? createdData =
+                                  await createScheduleData(scheduleData);
                               print('selected Value: $selectedValue');
                               Navigator.of(context).pop();
-                              setState(() {
-                                
-                              });
+                              setState(() {});
                             },
                             child: Text('Submit'),
                           ),
