@@ -3,14 +3,13 @@ import '../api/communityData.dart';
 import '../api/communityList.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:convert';
 
 import 'widgets.dart';
 import '../hive/community.dart';
 
 class CommunityMain extends StatefulWidget {
   @override
-  _CommunityMainState createState() => _CommunityMainState();
+  State<CommunityMain> createState() => _CommunityMainState();
 }
 
 class _CommunityMainState extends State<CommunityMain> {
@@ -79,16 +78,40 @@ class _CommunityMainState extends State<CommunityMain> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: GridView.count(
-                    childAspectRatio: 1/.6,
+                    childAspectRatio: 1 / .6,
                     crossAxisCount: 2,
                     shrinkWrap: true,
                     children: [
-                      buildCategoryCard(1, bagsController1, kgController1,),
-                      buildCategoryCard(2, bagsController2, kgController2,),
-                      buildCategoryCard(3, bagsController3, kgController3,),
-                      buildCategoryCard(4, bagsController4, kgController4,),
-                      buildCategoryCard(5, bagsController5, kgController5,),
-                      buildCategoryCard(6, bagsController6, kgController6,),
+                      buildCategoryCard(
+                        1,
+                        bagsController1,
+                        kgController1,
+                      ),
+                      buildCategoryCard(
+                        2,
+                        bagsController2,
+                        kgController2,
+                      ),
+                      buildCategoryCard(
+                        3,
+                        bagsController3,
+                        kgController3,
+                      ),
+                      buildCategoryCard(
+                        4,
+                        bagsController4,
+                        kgController4,
+                      ),
+                      buildCategoryCard(
+                        5,
+                        bagsController5,
+                        kgController5,
+                      ),
+                      buildCategoryCard(
+                        6,
+                        bagsController6,
+                        kgController6,
+                      ),
                     ],
                   ),
                 ),

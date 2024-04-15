@@ -3,13 +3,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'Community/CommunityMain.dart';
 import 'hive/community.dart';
 import 'Schedule/scheduleDetails.dart';
-import 'package:hive/hive.dart';
+
+import 'hive/schedule.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(CommunityAdapter());
   await Hive.openBox<Community>('communities');
+  Hive.registerAdapter(ScheduleAdapter());
+  await Hive.openBox<Schedule>('schedule');
   runApp(MyApp());
 }
 

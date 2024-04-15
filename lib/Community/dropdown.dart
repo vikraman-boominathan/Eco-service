@@ -1,7 +1,7 @@
-import 'package:eco_service/main.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 
-import '../api/communityList.dart';
 import '../hive/community.dart';
 
 void main() {

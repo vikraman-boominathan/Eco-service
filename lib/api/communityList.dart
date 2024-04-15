@@ -21,16 +21,13 @@ class CommunityListBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-            child: CustomDropdown(
-              dropdownItems: communities,
-              onChange: onDropdownChanged,
-            ),
-          );
-        }
-      }
-
-
-
+      child: CustomDropdown(
+        dropdownItems: communities,
+        onChange: onDropdownChanged,
+      ),
+    );
+  }
+}
 
 Future<List<Community>> fetchCommunities() async {
   await Hive.initFlutter();
@@ -39,7 +36,7 @@ Future<List<Community>> fetchCommunities() async {
   final Box<Community> box = Hive.box('communities');
 
   if (box.isNotEmpty) {
-     List<Community> communities = List<Community>.from(box.values);
+    List<Community> communities = List<Community>.from(box.values);
 
     return communities;
   } else {
@@ -52,7 +49,6 @@ Future<List<Community>> fetchCommunities() async {
           jsonResponse.map((json) => Community.fromJson(json)).toList();
 
       await box.addAll(communities);
-      
 
       return communities;
     } else {

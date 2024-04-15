@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
-import '../Community/widgets.dart'; 
-import '../Community/dropdown.dart'; 
-import 'communityList.dart'; 
+import '../Community/widgets.dart';
+import '../Community/dropdown.dart';
+import 'communityList.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -36,12 +34,12 @@ class CommunityData {
     required this.paperBags,
     required this.segLfBags,
     required this.sanitoryBags,
-   this.kgOfGlass,
-   this.kgOfMixed,
-   this.kgOfPlastic,
-   this.kgOfPaper,
-   this.kgOfSegLf,
-   this.kgOfSanitory,
+    this.kgOfGlass,
+    this.kgOfMixed,
+    this.kgOfPlastic,
+    this.kgOfPaper,
+    this.kgOfSegLf,
+    this.kgOfSanitory,
     this.comments,
   });
 
@@ -65,7 +63,9 @@ class CommunityData {
     );
   }
 }
-Future<CommunityData?> createCommunityData( CommunityData communityData,BuildContext context) async {
+
+Future<CommunityData?> createCommunityData(
+    CommunityData communityData, BuildContext context) async {
   try {
     var headers = {'Content-Type': 'application/json'};
     var request =
@@ -113,15 +113,14 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
           );
         },
       );
-
-      
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Error"),
-            content: Text("Failed to create community data: ${response.reasonPhrase}"),
+            content: Text(
+                "Failed to create community data: ${response.reasonPhrase}"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -133,7 +132,6 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
           );
         },
       );
-      
     }
   } catch (e) {
     print('Error: $e');
@@ -154,7 +152,5 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
         );
       },
     );
-    
   }
 }
-

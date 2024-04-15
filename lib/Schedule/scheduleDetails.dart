@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../api/communityList.dart';
 import '../api/scheduleList.dart';
+import '../hive/schedule.dart';
 import 'scheduleWidgets.dart';
-import '../api/scheduledata.dart';
 import '../hive/community.dart';
 
 class ScheduleDetailScreen extends StatefulWidget {
@@ -24,20 +24,18 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
 
   String? selectedValue;
 
-  late Future<List<Community>> communities;
+   late List<Community> communities;
 
   final Box<Community> communityBox = Hive.box<Community>('communities');
+
   
 
-  @override
-  void initState() {
-    super.initState();
-    
-
-    //  communities =fetchCommunities();
-  }
-
   Widget build(BuildContext context) {
+    final Box<Schedule> box = Hive.box<Schedule>('schedule');
+
+    Schedule schedule_details = box.get('schedule')!;
+
+    communities = schedule_details.communities;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -75,12 +73,14 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             ),
             SizedBox(height: 10),
             Expanded(
-                child: buildListTile(
-              context,
-            )),
+              child: buildListTile(
+                context,communities
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
                 fetchCommunities();
+                fetchSchedule();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -102,15 +102,15 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
-                              ScheduleDetails details = await getDetails();
-                              ScheduleData scheduleData = ScheduleData(
-                                communityId: selectedValue ?? "",
-                                schedule_id: details.scheduleId,
-                              );
+                              // Schedule details = await getDetails();
+                              // ScheduleData scheduleData = ScheduleData(
+                              //   communityId: selectedValue ?? "",
+                              //   schedule_id: details.scheduleId,
+                              // );
 
-                              ScheduleData? createdData =
-                                  await createScheduleData(scheduleData);
-                              print('selected Value: $selectedValue');
+                              // ScheduleData? createdData =
+                              //     await createScheduleData(scheduleData);
+                              // print('selected Value: $selectedValue');
                               Navigator.of(context).pop();
                               setState(() {});
                             },

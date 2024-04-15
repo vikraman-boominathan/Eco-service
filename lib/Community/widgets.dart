@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 Widget buildNamedCards(
     String name1, String name2, String value1, String value2) {
@@ -46,7 +42,7 @@ Widget buildNamedCards(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                 value2,
+                  value2,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -138,30 +134,25 @@ Widget buildRemarksCard(TextEditingController remarksController) {
 }
 
 Widget buildButtons() {
-    return Center(
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                
-              },
-              icon: Icon(Icons.location_on),
-              label: Text('Location'),
-            ),
+  return Center(
+    child: Row(
+      children: [
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.location_on),
+            label: Text('Location'),
           ),
-          SizedBox(width: 20),
-          Expanded(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                
-              },
-              icon: Icon(Icons.image),
-              label: Text('Image'),
-            ),
+        ),
+        SizedBox(width: 20),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: () {},
+            icon: Icon(Icons.image),
+            label: Text('Image'),
           ),
-        ],
-      ),
-    );
-  }
-
+        ),
+      ],
+    ),
+  );
+}
