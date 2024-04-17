@@ -11,8 +11,9 @@ class Schedule {
   @HiveField(1)
   final String scheduleId;
 
+
   Schedule({
     required this.communities,
-    required this.scheduleId,
+    required this.scheduleId, 
   });
 }

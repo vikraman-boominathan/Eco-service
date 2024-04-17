@@ -1,68 +1,9 @@
 import 'package:flutter/material.dart';
-import '../Community/widgets.dart';
-import '../Community/dropdown.dart';
-import 'communityList.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:intl/intl.dart';
-import 'communityData.dart';
-
-class CommunityData {
-  final String date;
-  final String communityId;
-  final int mixedBags;
-  final int glassBags;
-  final int plasticBags;
-  final int paperBags;
-  final int segLfBags;
-  final int sanitoryBags;
-  final double? kgOfGlass;
-  final double? kgOfMixed;
-  final double? kgOfPlastic;
-  final double? kgOfPaper;
-  final double? kgOfSegLf;
-  final double? kgOfSanitory;
-  final String? comments;
-
-  CommunityData({
-    required this.date,
-    required this.communityId,
-    required this.mixedBags,
-    required this.glassBags,
-    required this.plasticBags,
-    required this.paperBags,
-    required this.segLfBags,
-    required this.sanitoryBags,
-    this.kgOfGlass,
-    this.kgOfMixed,
-    this.kgOfPlastic,
-    this.kgOfPaper,
-    this.kgOfSegLf,
-    this.kgOfSanitory,
-    this.comments,
-  });
-
-  factory CommunityData.fromJson(Map<String, dynamic> json) {
-    return CommunityData(
-      date: json['date'],
-      communityId: json['community_id'],
-      mixedBags: json['mixed_bags'],
-      glassBags: json['glass_bags'],
-      plasticBags: json['plastic_bags'],
-      paperBags: json['paper_bags'],
-      segLfBags: json['seg_lf_bags'],
-      sanitoryBags: json['sanitory_bags'],
-      kgOfGlass: json['kg_of_glass'],
-      kgOfMixed: json['kg_of_mixed'],
-      kgOfPlastic: json['kg_of_plastic'],
-      kgOfPaper: json['kg_of_paper'],
-      kgOfSegLf: json['kg_of_seg_lf'],
-      kgOfSanitory: json['kg_of_sanitory'],
-      comments: json['comments'],
-    );
-  }
-}
+import '../hive/communityData.dart';
 
 Future<CommunityData?> createCommunityData(
     CommunityData communityData, BuildContext context) async {

@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Community/dropdown.dart';
-import '../Community/widgets.dart';
 import 'package:http/http.dart' as http;
 import '../hive/community.dart';
 
@@ -56,3 +54,4 @@ Future<List<Community>> fetchCommunities() async {
     }
   }
 }
+

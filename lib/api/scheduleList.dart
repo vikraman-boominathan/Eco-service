@@ -1,14 +1,10 @@
-import 'package:eco_service/api/communityList.dart';
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../hive/community.dart';
 import '../hive/schedule.dart';
 
-import 'package:hive/hive.dart';
 
 Future<Schedule> fetchSchedule() async {
   await Hive.initFlutter();
@@ -30,7 +26,7 @@ Future<Schedule> fetchSchedule() async {
       List<Community> communities =
           communitiesData.map((json) => Community.fromJson(json)).toList();
       String scheduleId = jsonResponse['schedule_id'];
-
+      
       Schedule schedule =
           Schedule(communities: communities, scheduleId: scheduleId);
       await box.put('schedule', schedule);
