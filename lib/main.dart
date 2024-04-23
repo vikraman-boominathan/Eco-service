@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'Community/CommunityMain.dart';
-import 'Community/community.g.dart';
 import 'Schedule/scheduleDetails.dart';
 
-void main() async{
-  await Hive.initFlutter();
-  Hive.registerAdapter(CommunityAdapter());
-  await Hive.openBox<Community>('community_box');
-  runApp(const MyApp());
+void main() {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,9 +15,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        '/communityMain': (context) => const CommunityMain(),
+        '/communityMain': (context) => CommunityMain(),
       },
-      home: const ScheduleDetailScreen(),
+      home: ScheduleDetailScreen(),
     );
   }
 }

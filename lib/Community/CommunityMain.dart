@@ -1,15 +1,13 @@
 import 'package:intl/intl.dart';
-import 'community.g.dart';
 import 'communityData.dart';
 import 'communityList.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
 
 import 'widgets.dart';
 
 class CommunityMain extends StatefulWidget {
-  const CommunityMain({super.key});
-
   @override
   _CommunityMainState createState() => _CommunityMainState();
 }
@@ -51,8 +49,8 @@ class _CommunityMainState extends State<CommunityMain> {
         ModalRoute.of(context)?.settings.arguments as String? ?? 'Unknown';
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Color.fromARGB(255, 140, 201, 143)),
-        title: const Text(
+        leading: BackButton(color: Color.fromARGB(255, 140, 201, 143)),
+        title: Text(
           'ECO Service',
           style: TextStyle(
             fontSize: 25,
@@ -62,7 +60,7 @@ class _CommunityMainState extends State<CommunityMain> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: const Color.fromARGB(255, 140, 201, 143),
+      backgroundColor: Color.fromARGB(255, 140, 201, 143),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -71,13 +69,13 @@ class _CommunityMainState extends State<CommunityMain> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 buildNamedCards("Community", "Location_Area_Zone",
                     communityName, formattedDay),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 buildButtons(),
-                const SizedBox(height: 30),
-                SizedBox(
+                SizedBox(height: 30),
+                Container(
                   width: MediaQuery.of(context).size.width,
                   child: GridView.count(
                     childAspectRatio: 1/.6,
@@ -94,7 +92,7 @@ class _CommunityMainState extends State<CommunityMain> {
                   ),
                 ),
                 buildRemarksCard(remarksController),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
@@ -135,15 +133,15 @@ class _CommunityMainState extends State<CommunityMain> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 50),
+                      minimumSize: Size(200, 50),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Save',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
               ],
             ),
           ),
