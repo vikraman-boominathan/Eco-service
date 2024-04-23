@@ -59,7 +59,7 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
   List<String> categories = [
     "Glass",
     "Mixed",
-    "Sef Lg",
+    "Seg Lf",
     "Sanitary",
     "Plastic",
     "Paper"
@@ -133,66 +133,6 @@ Widget buildRemarksCard(TextEditingController remarksController) {
   );
 }
 
-Widget buildButtons(BuildContext context, String imgUrl) {
-  return Center(
-    child: Row(
-      children: [
-        Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.location_on),
-            label: const Text('Location'),
-          ),
-        ),
-        const SizedBox(width: 20),
-        Expanded(
-          child: ElevatedButton.icon(
-            onPressed: () {
-              _showImageDialog(context, imgUrl);
-            },
-            icon: const Icon(Icons.image),
-            label: const Text('Image'),
-          ),
-        ),
-      ],
-    ),
-  );
-}
 
-void _showImageDialog(BuildContext context, String imgUrl) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: SizedBox(
-          width: 300, // Desired width
-          height: 300, // Desired height
-          child: Image.network(
-            imgUrl, // Example placeholder image URL
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded.toDouble() /
-                          loadingProgress.expectedTotalBytes!.toDouble()
-                      : null,
-                ),
-              );
-            },
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Close'),
-          ),
-        ],
-      );
-    },
-  );
-}
 
 

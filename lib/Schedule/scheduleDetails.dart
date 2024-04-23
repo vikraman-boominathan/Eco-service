@@ -24,11 +24,13 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
 
   String formattedDay = DateFormat('EEEE').format(DateTime.now());
 
+  late ScheduleData scheduleData;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchSchedule();
+     fetchSchedule();
   }
 
   @override
@@ -40,6 +42,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
 
     final Box<Community> communityBox = Hive.box<Community>('communities');
     final Box<Schedule> box = Hive.box<Schedule>('schedule');
+   
 
     Schedule? scheduleDetails = box.get('schedule');
 
@@ -86,58 +89,53 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             Expanded(
               child: buildListTile(context, communities),
             ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Add Community'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CommunityListBuilder(
-                            communities: communityBox.values.toList(),
-                            onDropdownChanged: (community) {
-                              if (community != null) {
-                                setState(() {
-                                  selectedValue = community.id;
-                                });
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () async {
-                              ScheduleData scheduleData = ScheduleData(
-                                communityId: selectedValue,
-                                schedule_id: scheduleId,
-                              );
+            // ElevatedButton(
+            //   onPressed: () {
+            //     showDialog(
+            //       context: context,
+            //       builder: (BuildContext context) {
+            //         return AlertDialog(
+            //           title: const Text('Add Community'),
+            //           content: Column(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               CommunityListBuilder(
+            //                 communities: communityBox.values.toList(),
+            //                 onDropdownChanged: (community) {
+            //                   if (community != null) {
+            //                     setState(() {
+            //                       selectedValue = community.id;
+            //                     });
+            //                   }
+            //                 },
+            //               ),
+            //               const SizedBox(height: 20),
+            //               ElevatedButton(
+            //                 onPressed: () async {
+            //                    scheduleData = ScheduleData(
+            //                     communityId: selectedValue,
+            //                     schedule_id: scheduleId,
+            //                   );
 
-                              await createScheduleData(scheduleData);
-                              box.clear();
-                              print('selected Value: $selectedValue');
-                              Navigator.of(context).pop();
-
-                              setState(() {
-                                fetchSchedule();
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Community Added'),
-                                ),
-                              );
-                            },
-                            child: const Text('Submit'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: const Text('Add Community'),
-            ),
+            //                   await createScheduleData(scheduleData);
+            //                   print('selected Value: $selectedValue');
+            //                   Navigator.of(context).pop();
+            //                   ScaffoldMessenger.of(context).showSnackBar(
+            //                     const SnackBar(
+            //                       content: Text('Community Added'),
+            //                     ),
+            //                   );
+            //                 },
+            //                 child: const Text('Submit'),
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   },
+            //   child: const Text('Add Community'),
+            // ),
           ],
         ),
       ),

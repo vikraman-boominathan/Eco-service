@@ -69,7 +69,7 @@ class _CommunityMainState extends State<CommunityMain> {
                   community.location,
                 ),
                 const SizedBox(height: 10),
-                buildButtons(context, "https://picsum.photos/seed/picsum/500/500"),
+                
                 const SizedBox(height: 30),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -118,20 +118,21 @@ class _CommunityMainState extends State<CommunityMain> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         CommunityData communityData = CommunityData(
-                          date: "~D[$formattedDate1]",
-                          communityId: selectedDropdownValue ?? "",
+                          date: formattedDate1,
+                          communityId: community.id,
                           mixedBags: int.parse(bagsController1.text),
-                          kgOfMixed: double.parse(kgController1.text),
+                          kgOfMixed: double.tryParse(kgController1.text) ?? 0,
                           glassBags: int.parse(bagsController2.text),
-                          kgOfGlass: double.parse(kgController2.text),
+                          kgOfGlass: double.tryParse(kgController2.text) ?? 0,
                           plasticBags: int.parse(bagsController3.text),
-                          kgOfPlastic: double.parse(kgController3.text),
+                          kgOfPlastic: double.tryParse(kgController3.text) ?? 0,
                           paperBags: int.parse(bagsController4.text),
-                          kgOfPaper: double.parse(kgController4.text),
+                          kgOfPaper: double.tryParse(kgController4.text) ?? 0,
                           segLfBags: int.parse(bagsController5.text),
-                          kgOfSegLf: double.parse(kgController5.text),
+                          kgOfSegLf: double.tryParse(kgController5.text) ?? 0,
                           sanitoryBags: int.parse(bagsController6.text),
-                          kgOfSanitory: double.parse(kgController6.text),
+                          kgOfSanitory:
+                              double.tryParse(kgController6.text) ?? 0,
                           comments: remarksController.text,
                         );
 
