@@ -10,11 +10,11 @@ Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
     case communityMain:
       return MaterialPageRoute(
-        builder: (context) => CommunityMain(),
+        builder: (context) => const CommunityMain(),
       );
     case schedule_details:
       return MaterialPageRoute(
-        builder: (context) => ScheduleDetailScreen(),
+        builder: (context) => const ScheduleDetailScreen(),
       );
     
     default:

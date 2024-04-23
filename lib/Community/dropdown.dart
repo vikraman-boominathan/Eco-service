@@ -1,6 +1,6 @@
-import 'package:eco_service/main.dart';
 import 'package:flutter/material.dart';
 
+import 'community.g.dart';
 import 'communityList.dart';
 
 void main() {
@@ -55,7 +55,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                           label: item.toString(),
                         ),
                       )
-                      ?.toList() ??
+                      .toList() ??
                   [],
             ),
           ),
