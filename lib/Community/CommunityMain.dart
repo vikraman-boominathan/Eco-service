@@ -1,20 +1,19 @@
 import 'package:intl/intl.dart';
-import 'communityData.dart';
-import 'communityList.dart';
+import '../api/communityData.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
 
+import '../hive/communityData.dart';
 import 'widgets.dart';
+import '../hive/community.dart';
 
 class CommunityMain extends StatefulWidget {
+  const CommunityMain({super.key});
+
   @override
-  _CommunityMainState createState() => _CommunityMainState();
+  State<CommunityMain> createState() => _CommunityMainState();
 }
 
 class _CommunityMainState extends State<CommunityMain> {
-  late Future<List<Community>> communities;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController remarksController = TextEditingController();
@@ -37,20 +36,13 @@ class _CommunityMainState extends State<CommunityMain> {
   String formattedDay = DateFormat('EEEE').format(DateTime.now());
 
   @override
-  void initState() {
-    super.initState();
-
-    communities = fetchCommunities();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final String communityName =
-        ModalRoute.of(context)?.settings.arguments as String? ?? 'Unknown';
+    final Community community =
+        ModalRoute.of(context)?.settings.arguments as Community;
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Color.fromARGB(255, 140, 201, 143)),
-        title: Text(
+        leading: const BackButton(color: Color.fromARGB(255, 140, 201, 143)),
+        title: const Text(
           'ECO Service',
           style: TextStyle(
             fontSize: 25,
@@ -60,7 +52,7 @@ class _CommunityMainState extends State<CommunityMain> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 140, 201, 143),
+      backgroundColor: const Color.fromARGB(255, 140, 201, 143),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -69,49 +61,78 @@ class _CommunityMainState extends State<CommunityMain> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
-                buildNamedCards("Community", "Location_Area_Zone",
-                    communityName, formattedDay),
-                SizedBox(height: 10),
-                buildButtons(),
-                SizedBox(height: 30),
-                Container(
+                const SizedBox(height: 10),
+                buildNamedCards(
+                  "Community",
+                  "Location_Area_Zone",
+                  community.name,
+                  community.location,
+                ),
+                const SizedBox(height: 10),
+                
+                const SizedBox(height: 30),
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: GridView.count(
-                    childAspectRatio: 1/.6,
+                    childAspectRatio: 1 / .6,
                     crossAxisCount: 2,
                     shrinkWrap: true,
                     children: [
-                      buildCategoryCard(1, bagsController1, kgController1,),
-                      buildCategoryCard(2, bagsController2, kgController2,),
-                      buildCategoryCard(3, bagsController3, kgController3,),
-                      buildCategoryCard(4, bagsController4, kgController4,),
-                      buildCategoryCard(5, bagsController5, kgController5,),
-                      buildCategoryCard(6, bagsController6, kgController6,),
+                      buildCategoryCard(
+                        1,
+                        bagsController1,
+                        kgController1,
+                      ),
+                      buildCategoryCard(
+                        2,
+                        bagsController2,
+                        kgController2,
+                      ),
+                      buildCategoryCard(
+                        3,
+                        bagsController3,
+                        kgController3,
+                      ),
+                      buildCategoryCard(
+                        4,
+                        bagsController4,
+                        kgController4,
+                      ),
+                      buildCategoryCard(
+                        5,
+                        bagsController5,
+                        kgController5,
+                      ),
+                      buildCategoryCard(
+                        6,
+                        bagsController6,
+                        kgController6,
+                      ),
                     ],
                   ),
                 ),
                 buildRemarksCard(remarksController),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         CommunityData communityData = CommunityData(
-                          date: "~D[$formattedDate1]",
-                          communityId: selectedDropdownValue ?? "",
+                          date: formattedDate1,
+                          communityId: community.id,
                           mixedBags: int.parse(bagsController1.text),
-                          kgOfMixed: double.parse(kgController1.text),
+                          kgOfMixed: double.tryParse(kgController1.text) ?? 0,
                           glassBags: int.parse(bagsController2.text),
-                          kgOfGlass: double.parse(kgController2.text),
+                          kgOfGlass: double.tryParse(kgController2.text) ?? 0,
                           plasticBags: int.parse(bagsController3.text),
-                          kgOfPlastic: double.parse(kgController3.text),
+                          kgOfPlastic: double.tryParse(kgController3.text) ?? 0,
                           paperBags: int.parse(bagsController4.text),
-                          kgOfPaper: double.parse(kgController4.text),
+                          kgOfPaper: double.tryParse(kgController4.text) ?? 0,
                           segLfBags: int.parse(bagsController5.text),
-                          kgOfSegLf: double.parse(kgController5.text),
+                          kgOfSegLf: double.tryParse(kgController5.text) ?? 0,
                           sanitoryBags: int.parse(bagsController6.text),
-                          kgOfSanitory: double.parse(kgController6.text),
+                          kgOfSanitory:
+                              double.tryParse(kgController6.text) ?? 0,
                           comments: remarksController.text,
                         );
 
@@ -133,15 +154,15 @@ class _CommunityMainState extends State<CommunityMain> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(200, 50),
+                      minimumSize: const Size(200, 50),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Save',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),

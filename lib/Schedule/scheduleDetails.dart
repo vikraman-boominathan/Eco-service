@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../Community/communityList.dart';
-import 'scheduleList.dart';
+import '../api/communityList.dart';
+import '../api/scheduleList.dart';
+import '../api/scheduledata.dart';
+import '../hive/schedule.dart';
+import '../hive/scheduleData.dart';
 import 'scheduleWidgets.dart';
-import 'scheduledata.dart';
+import '../hive/community.dart';
 
 class ScheduleDetailScreen extends StatefulWidget {
   const ScheduleDetailScreen({super.key});
@@ -20,23 +24,35 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
 
   String formattedDay = DateFormat('EEEE').format(DateTime.now());
 
-  String? selectedValue;
-
-  late Future<List<Community>> communities;
+  late ScheduleData scheduleData;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-
-    communities = fetchCommunities();
-    
-    
+     fetchSchedule();
   }
 
+  @override
   Widget build(BuildContext context) {
+    late String selectedValue;
+
+    late List<Community> communities = [];
+    late String scheduleId = '';
+
+    final Box<Community> communityBox = Hive.box<Community>('communities');
+    final Box<Schedule> box = Hive.box<Schedule>('schedule');
+   
+
+    Schedule? scheduleDetails = box.get('schedule');
+
+    if (scheduleDetails != null) {
+      communities = scheduleDetails.communities;
+      scheduleId = scheduleDetails.scheduleId;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'ECO Service',
           style: TextStyle(
             fontSize: 25,
@@ -46,82 +62,80 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Color.fromARGB(255, 140, 201, 143),
+      backgroundColor: const Color.fromARGB(255, 140, 201, 143),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Center(
+            const Center(
               child: Text(
                 'Schedule of the Day',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             buildDateAndDayCards("Date", "Day", formattedDate, formattedDay),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'List of Community',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
-              child:buildListTile(context,)
+              child: buildListTile(context, communities),
             ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Add Community'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CommunityListBuilder(
-                            communities: communities,
-                            onDropdownChanged: (community) {
-                              if (community != null) {
-                                setState(() {
-                                  selectedValue = community.id;
-                                });
-                              }
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () async {
-                               ScheduleDetails details = await getDetails();
-                              ScheduleData scheduleData = ScheduleData(
-                          
-                          communityId: selectedValue ?? "",
-                          schedule_id: details.scheduleId,
-                          
-                        );
+            // ElevatedButton(
+            //   onPressed: () {
+            //     showDialog(
+            //       context: context,
+            //       builder: (BuildContext context) {
+            //         return AlertDialog(
+            //           title: const Text('Add Community'),
+            //           content: Column(
+            //             mainAxisSize: MainAxisSize.min,
+            //             children: [
+            //               CommunityListBuilder(
+            //                 communities: communityBox.values.toList(),
+            //                 onDropdownChanged: (community) {
+            //                   if (community != null) {
+            //                     setState(() {
+            //                       selectedValue = community.id;
+            //                     });
+            //                   }
+            //                 },
+            //               ),
+            //               const SizedBox(height: 20),
+            //               ElevatedButton(
+            //                 onPressed: () async {
+            //                    scheduleData = ScheduleData(
+            //                     communityId: selectedValue,
+            //                     schedule_id: scheduleId,
+            //                   );
 
-                        ScheduleData? createdData =
-                            await createScheduleData(scheduleData);
-                              print('selected Value: $selectedValue');
-                              Navigator.of(context).pop();
-                              setState(() {
-                                
-                              });
-                            },
-                            child: Text('Submit'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Text('Add Community'),
-            ),
+            //                   await createScheduleData(scheduleData);
+            //                   print('selected Value: $selectedValue');
+            //                   Navigator.of(context).pop();
+            //                   ScaffoldMessenger.of(context).showSnackBar(
+            //                     const SnackBar(
+            //                       content: Text('Community Added'),
+            //                     ),
+            //                   );
+            //                 },
+            //                 child: const Text('Submit'),
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   },
+            //   child: const Text('Add Community'),
+            // ),
           ],
         ),
       ),

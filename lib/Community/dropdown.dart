@@ -1,7 +1,8 @@
-import 'package:eco_service/main.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 
-import 'communityList.dart';
+import '../hive/community.dart';
 
 void main() {
   runApp(const CustomDropdown());
@@ -52,10 +53,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
                       ?.map<DropdownMenuEntry<Community>>(
                         (item) => DropdownMenuEntry<Community>(
                           value: item,
-                          label: item.toString(),
+                          label: item.name,
                         ),
                       )
-                      ?.toList() ??
+                      .toList() ??
                   [],
             ),
           ),
