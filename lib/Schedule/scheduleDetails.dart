@@ -1,11 +1,10 @@
-import 'package:eco_service/Schedule/scheduleList.dart';
-import 'package:eco_service/Schedule/scheduledata.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../Community/community.g.dart';
 import '../Community/communityList.dart';
+import 'scheduleList.dart';
 import 'scheduleWidgets.dart';
+import 'scheduledata.dart';
 
 class ScheduleDetailScreen extends StatefulWidget {
   const ScheduleDetailScreen({super.key});
@@ -34,11 +33,10 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
     
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'ECO Service',
           style: TextStyle(
             fontSize: 25,
@@ -48,30 +46,30 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: const Color.fromARGB(255, 140, 201, 143),
+      backgroundColor: Color.fromARGB(255, 140, 201, 143),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const SizedBox(
+            SizedBox(
               height: 30,
             ),
-            const Center(
+            Center(
               child: Text(
                 'Schedule of the Day',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             buildDateAndDayCards("Date", "Day", formattedDate, formattedDay),
-            const SizedBox(height: 20),
-            const Text(
+            SizedBox(height: 20),
+            Text(
               'List of Community',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Expanded(
               child:buildListTile(context,)
             ),
@@ -81,7 +79,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text('Add Community'),
+                      title: Text('Add Community'),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -95,7 +93,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                               }
                             },
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
                                ScheduleDetails details = await getDetails();
@@ -114,7 +112,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                 
                               });
                             },
-                            child: const Text('Submit'),
+                            child: Text('Submit'),
                           ),
                         ],
                       ),
@@ -122,7 +120,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                   },
                 );
               },
-              child: const Text('Add Community'),
+              child: Text('Add Community'),
             ),
           ],
         ),

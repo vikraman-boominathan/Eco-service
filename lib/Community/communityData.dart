@@ -1,9 +1,14 @@
 
 
 import 'package:flutter/material.dart';
+import 'widgets.dart'; 
+import 'dropdown.dart'; 
+import 'communityList.dart'; 
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'communityData.dart';
 
 class CommunityData {
   final String date;
@@ -95,14 +100,14 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Success"),
-            content: Text(responseBody),
+            title: Text("Success"),
+            content: Text("$responseBody"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("OK"),
+                child: Text("OK"),
               ),
             ],
           );
@@ -115,14 +120,14 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Error"),
+            title: Text("Error"),
             content: Text("Failed to create community data: ${response.reasonPhrase}"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("OK"),
+                child: Text("OK"),
               ),
             ],
           );
@@ -136,14 +141,14 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Error"),
+          title: Text("Error"),
           content: Text("An error occurred: $e"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("OK"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -151,6 +156,5 @@ Future<CommunityData?> createCommunityData( CommunityData communityData,BuildCon
     );
     
   }
-  return null;
 }
 

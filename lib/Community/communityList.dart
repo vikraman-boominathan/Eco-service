@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'community.g.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dropdown.dart';
+import 'widgets.dart';
 import 'package:http/http.dart' as http;
 
 class CommunityListBuilder extends StatelessWidget {
@@ -23,7 +22,7 @@ class CommunityListBuilder extends StatelessWidget {
       future: communities,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -40,72 +39,75 @@ class CommunityListBuilder extends StatelessWidget {
   }
 }
 
-// class Community {
-//   final String id;
-//   final String location;
-//   final String name;
-//   final String gate_photo_file_name;
-//   final double lat;
-//   final double long;
+class Community {
+  final String id;
+  final String location;
+  final String name;
+  final String gate_photo_file_name;
+  final double lat;
+  final double long;
 
-//   Community({
-//     required this.id,
-//     required this.location,
-//     required this.name,
-//     required this.gate_photo_file_name,
-//     required this.lat,
-//     required this.long,
-//   });
+  Community({
+    required this.id,
+    required this.location,
+    required this.name,
+    required this.gate_photo_file_name,
+    required this.lat,
+    required this.long,
+  });
 
-//   factory Community.fromJson(Map<String, dynamic> json) {
-//   return Community(
-//     id: json['community_id'] as String? ?? '',
-//     location: json['community_location'] as String? ?? '',
-//     name: json['community_name'] as String? ?? '',
-//     gate_photo_file_name: json['gate_photo_file_name'] as String? ?? '',
-//     lat: json['latitude']as double? ?? 0.0,
-//     long: json['longtitude']as double? ?? 0.0, 
-//   );
-// }
+  factory Community.fromJson(Map<String, dynamic> json) {
+  return Community(
+    id: json['community_id'] as String? ?? '',
+    location: json['community_location'] as String? ?? '',
+    name: json['community_name'] as String? ?? '',
+    gate_photo_file_name: json['gate_photo_file_name'] as String? ?? '',
+    lat: json['latitude']as double? ?? 0.0,
+    long: json['longtitude']as double? ?? 0.0, 
+  );
+}
 
-//   @override
-//   String toString() {
-//     return name;
-//   }
-// }
-
-Future<List<Community>> fetchCommunities() async {
-  final Box<Community> box = await Hive.openBox<Community>('community_box');
-
-  if (box.isNotEmpty) {
-    List<Community> communities = box.values.toList();
-    await box.close();
-    return communities;
-  }
-
-  final response = await http.get(Uri.parse('http://localhost:4000/api/list_of_communities'));
-
-  if (response.statusCode == 200) {
-    List<dynamic> jsonResponse = jsonDecode(response.body);
-    List<Community> communities = jsonResponse.map((json) => Community(
-      id: json['community_id'] as String? ?? '',
-      location: json['community_location'] as String? ?? '',
-      name: json['community_name'] as String? ?? '',
-      gatePhotoFileName: json['gate_photo_file_name'] as String? ?? '',
-      lat: (json['latitude'] as num?)?.toDouble() ?? 0.0,
-      long: (json['longitude'] as num?)?.toDouble() ?? 0.0,
-    )).toList();
-
-    for (var community in communities) {
-      await box.add(community);
-    }
-
-    await box.close();
-    return communities;
-  } else {
-    await box.close();
-    throw Exception('Failed to load communities');
+  @override
+  String toString() {
+    return name;
   }
 }
 
+Future<List<Community>> fetchCommunities() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  final String? storedData = prefs.getString('community_data');
+  final int? storedTime = prefs.getInt('community_data_timestamp');
+
+  if (storedData != null && storedTime != null) {
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final oneMinuteInMilliseconds = 60 * 1000;
+
+    if (currentTime - storedTime <= oneMinuteInMilliseconds) {
+      List<dynamic> jsonResponse = jsonDecode(storedData);
+      List<Community> communities =
+          jsonResponse.map((json) => Community.fromJson(json)).toList();
+      return communities;
+    } else {
+      await prefs.remove('community_data');
+      await prefs.remove('community_data_timestamp');
+    }
+  }
+
+  final response = await http
+      .get(Uri.parse('http://localhost:4000/api/list_of_communities'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> jsonResponse = jsonDecode(response.body);
+    List<Community> communities =
+        jsonResponse.map((json) => Community.fromJson(json)).toList();
+
+    await prefs.setString('community_data', jsonEncode(jsonResponse));
+    await prefs.setInt('community_data_timestamp', DateTime.now().millisecondsSinceEpoch);
+
+    return communities;
+  } else {
+    throw Exception('Failed to load communities');
+  }
+}
 
