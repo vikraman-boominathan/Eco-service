@@ -62,9 +62,16 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
     "Seg Lf",
     "Sanitary",
     "Plastic",
-    "Paper"
+    "Paper",
+    "Miscellaneous" 
   ];
-  String category = categories[index - 1];
+
+  
+  if (index < 1 || index > categories.length) {
+    throw ArgumentError('Index is out of bounds');
+  }
+
+  String category = categories[index - 1]; 
 
   return Card(
     child: Padding(
@@ -89,16 +96,16 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
             ),
           ),
           // SizedBox(height: 5),
-          // // TextField(
-          // //   controller: kgController,
-          // //   keyboardType: TextInputType.number,
-          // //   decoration: InputDecoration(
-          // //     hintText: 'Kg of Waste',
-          // //     hintStyle: TextStyle(fontSize: 16),
-          // //     border: OutlineInputBorder(),
-          // //     contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 8.0),
-          // //   ),
-          // // ),
+          // TextField(
+          //   controller: kgController,
+          //   keyboardType: TextInputType.number,
+          //   decoration: InputDecoration(
+          //     hintText: 'Kg of Waste',
+          //     hintStyle: TextStyle(fontSize: 16),
+          //     border: OutlineInputBorder(),
+          //     contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 8.0),
+          //   ),
+          // ),
           // SizedBox(height: 5),
         ],
       ),

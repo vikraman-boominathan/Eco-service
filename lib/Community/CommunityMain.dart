@@ -29,6 +29,8 @@ class _CommunityMainState extends State<CommunityMain> {
   TextEditingController kgController5 = TextEditingController();
   TextEditingController bagsController6 = TextEditingController();
   TextEditingController kgController6 = TextEditingController();
+  TextEditingController bagsController7 = TextEditingController();
+  TextEditingController kgController7 = TextEditingController();
 
   String? selectedDropdownValue;
   String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -108,9 +110,19 @@ class _CommunityMainState extends State<CommunityMain> {
                         bagsController6,
                         kgController6,
                       ),
+                      buildCategoryCard(
+                        7,
+                        bagsController6,
+                        kgController6,
+                      ),
                     ],
                   ),
                 ),
+                buildCategoryCard(
+                        7,
+                        bagsController7,
+                        kgController7,
+                      ),
                 buildRemarksCard(remarksController),
                 const SizedBox(height: 10),
                 Center(
