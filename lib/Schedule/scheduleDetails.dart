@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../api/communityList.dart';
@@ -18,6 +19,7 @@ class ScheduleDetailScreen extends StatefulWidget {
 }
 
 class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
+  
   String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   String formattedDate1 = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -52,8 +54,8 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'ECO Service',
+        title:  Text(
+          AppLocalizations.of(context)!.ecoservice,
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -61,6 +63,14 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
           ),
         ),
         backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {
+              
+            },
+            icon:  Icon(Icons.translate),
+          )
+        ],
       ),
       backgroundColor: const Color.fromARGB(255, 140, 201, 143),
       body: Padding(
@@ -89,53 +99,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             Expanded(
               child: buildListTile(context, communities),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     showDialog(
-            //       context: context,
-            //       builder: (BuildContext context) {
-            //         return AlertDialog(
-            //           title: const Text('Add Community'),
-            //           content: Column(
-            //             mainAxisSize: MainAxisSize.min,
-            //             children: [
-            //               CommunityListBuilder(
-            //                 communities: communityBox.values.toList(),
-            //                 onDropdownChanged: (community) {
-            //                   if (community != null) {
-            //                     setState(() {
-            //                       selectedValue = community.id;
-            //                     });
-            //                   }
-            //                 },
-            //               ),
-            //               const SizedBox(height: 20),
-            //               ElevatedButton(
-            //                 onPressed: () async {
-            //                    scheduleData = ScheduleData(
-            //                     communityId: selectedValue,
-            //                     schedule_id: scheduleId,
-            //                   );
-
-            //                   await createScheduleData(scheduleData);
-            //                   print('selected Value: $selectedValue');
-            //                   Navigator.of(context).pop();
-            //                   ScaffoldMessenger.of(context).showSnackBar(
-            //                     const SnackBar(
-            //                       content: Text('Community Added'),
-            //                     ),
-            //                   );
-            //                 },
-            //                 child: const Text('Submit'),
-            //               ),
-            //             ],
-            //           ),
-            //         );
-            //       },
-            //     );
-            //   },
-            //   child: const Text('Add Community'),
-            // ),
+            
           ],
         ),
       ),
