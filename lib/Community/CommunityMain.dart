@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 import '../api/communityData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../hive/communityData.dart';
 import 'widgets.dart';
@@ -44,8 +46,8 @@ class _CommunityMainState extends State<CommunityMain> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Color.fromARGB(255, 140, 201, 143)),
-        title: const Text(
-          'ECO Service',
+        title:  Text(
+          AppLocalizations.of(context)!.ecoservice,
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -65,8 +67,8 @@ class _CommunityMainState extends State<CommunityMain> {
               children: [
                 const SizedBox(height: 10),
                 buildNamedCards(
-                  "Community",
-                  "Location_Area_Zone",
+                  AppLocalizations.of(context)!.community,
+                  AppLocalizations.of(context)!.laz,
                   community.name,
                   community.location,
                 ),
@@ -84,36 +86,43 @@ class _CommunityMainState extends State<CommunityMain> {
                         1,
                         bagsController1,
                         kgController1,
+                        context
                       ),
                       buildCategoryCard(
                         2,
                         bagsController2,
                         kgController2,
+                        context
                       ),
                       buildCategoryCard(
                         3,
                         bagsController3,
                         kgController3,
+                        context
                       ),
                       buildCategoryCard(
                         4,
                         bagsController4,
                         kgController4,
+                        context
                       ),
                       buildCategoryCard(
                         5,
                         bagsController5,
                         kgController5,
+                        context
                       ),
                       buildCategoryCard(
                         6,
                         bagsController6,
                         kgController6,
+                        context
                       ),
                       buildCategoryCard(
                         7,
                         bagsController6,
                         kgController6,
+                        context
                       ),
                     ],
                   ),
@@ -122,8 +131,9 @@ class _CommunityMainState extends State<CommunityMain> {
                         7,
                         bagsController7,
                         kgController7,
+                        context
                       ),
-                buildRemarksCard(remarksController),
+                buildRemarksCard(remarksController,context),
                 const SizedBox(height: 10),
                 Center(
                   child: ElevatedButton(

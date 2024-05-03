@@ -1,0 +1,18 @@
+{
+  "ecoservice": "Eco service",
+    "title": "Schedule of the Day",
+    "day":  "Day",
+    "date": "Date",
+    "list": "List of Communities",
+    "community": "Community",
+    "laz": "Location_Area_Zone",
+    "glass": "Glass",
+    "mixed": "Mixed",
+    "seglf": "Seg Lf",
+    "sanitary": "Sanitary",
+    "plastic": "Plastic",
+    "paper": "Paper",
+    "miscellaneous" : "Miscellaneous",
+    "noofbags": "No. of bags",
+    "remarks": "Remarks"
+}
