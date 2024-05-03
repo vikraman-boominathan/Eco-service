@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Widget buildNamedCards(
     String name1, String name2, String value1, String value2) {
@@ -55,15 +57,15 @@ Widget buildNamedCards(
 }
 
 Widget buildCategoryCard(int index, TextEditingController bagsController,
-    TextEditingController kgController) {
+    TextEditingController kgController, BuildContext context) {
   List<String> categories = [
-    "Glass",
-    "Mixed",
-    "Seg Lf",
-    "Sanitary",
-    "Plastic",
-    "Paper",
-    "Miscellaneous" 
+    AppLocalizations.of(context)!.glass,
+    AppLocalizations.of(context)!.mixed,
+    AppLocalizations.of(context)!.seglf,
+    AppLocalizations.of(context)!.sanitary,
+    AppLocalizations.of(context)!.plastic,
+    AppLocalizations.of(context)!.paper,
+    AppLocalizations.of(context)!.miscellaneous
   ];
 
   
@@ -87,8 +89,8 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
           TextField(
             controller: bagsController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              hintText: 'No. of bags',
+            decoration:  InputDecoration(
+              hintText: AppLocalizations.of(context)!.noofbags,
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(),
               contentPadding:
@@ -113,25 +115,26 @@ Widget buildCategoryCard(int index, TextEditingController bagsController,
   );
 }
 
-Widget buildRemarksCard(TextEditingController remarksController) {
+Widget buildRemarksCard(TextEditingController remarksController, BuildContext context) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Remarks',
+           Text(
+            AppLocalizations.of(context)!.remarks,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           TextField(
             controller: remarksController,
-            decoration: const InputDecoration(
-              hintText: 'Remarks',
+            decoration:  InputDecoration(
+              hintText: AppLocalizations.of(context)!.remarks,
               hintStyle: TextStyle(fontSize: 16),
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+             contentPadding:
+                  EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
             ),
           ),
         ],
